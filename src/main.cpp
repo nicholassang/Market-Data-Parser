@@ -1,6 +1,10 @@
-#include <iostream>
+#include "udp_receiver.hpp"
 
 int main() {
-    std::cout << "Zero-Copy UDP Market Data Parser\n";
+
+    UDPReceiver receiver(9000);
+
+    receiver.receive();
+
     return 0;
 }
