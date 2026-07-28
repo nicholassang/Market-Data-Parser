@@ -64,6 +64,7 @@ CMAKE_BINARY_DIR = /home/nicholas/Desktop/Market-Data-Parser/build
 
 # The main recursive "all" target.
 all: CMakeFiles/zero_copy_parser.dir/all
+all: CMakeFiles/sender.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -72,6 +73,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/zero_copy_parser.dir/clean
+clean: CMakeFiles/sender.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -81,12 +83,12 @@ clean: CMakeFiles/zero_copy_parser.dir/clean
 CMakeFiles/zero_copy_parser.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/nicholas/Desktop/Market-Data-Parser/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target zero_copy_parser"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/nicholas/Desktop/Market-Data-Parser/build/CMakeFiles --progress-num=3,4,5,6 "Built target zero_copy_parser"
 .PHONY : CMakeFiles/zero_copy_parser.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/zero_copy_parser.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nicholas/Desktop/Market-Data-Parser/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nicholas/Desktop/Market-Data-Parser/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/zero_copy_parser.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nicholas/Desktop/Market-Data-Parser/build/CMakeFiles 0
 .PHONY : CMakeFiles/zero_copy_parser.dir/rule
@@ -99,6 +101,32 @@ zero_copy_parser: CMakeFiles/zero_copy_parser.dir/rule
 CMakeFiles/zero_copy_parser.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/clean
 .PHONY : CMakeFiles/zero_copy_parser.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/sender.dir
+
+# All Build rule for target.
+CMakeFiles/sender.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sender.dir/build.make CMakeFiles/sender.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sender.dir/build.make CMakeFiles/sender.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/nicholas/Desktop/Market-Data-Parser/build/CMakeFiles --progress-num=1,2 "Built target sender"
+.PHONY : CMakeFiles/sender.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/sender.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nicholas/Desktop/Market-Data-Parser/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/sender.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nicholas/Desktop/Market-Data-Parser/build/CMakeFiles 0
+.PHONY : CMakeFiles/sender.dir/rule
+
+# Convenience name for target.
+sender: CMakeFiles/sender.dir/rule
+.PHONY : sender
+
+# clean rule for target.
+CMakeFiles/sender.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sender.dir/build.make CMakeFiles/sender.dir/clean
+.PHONY : CMakeFiles/sender.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

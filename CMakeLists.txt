@@ -19,8 +19,11 @@ include_directories(include)
 add_executable(zero_copy_parser
     src/main.cpp
     src/udp_receiver.cpp
-    src/parser.cpp
     src/ring_buffer.cpp
+)
+
+add_executable(sender
+    src/sender.cpp
 )
 
 target_link_libraries(zero_copy_parser pthread)

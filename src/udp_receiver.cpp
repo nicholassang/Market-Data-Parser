@@ -1,4 +1,5 @@
 #include "udp_receiver.hpp"
+#include "market_packet.hpp"
 
 #include <iostream>
 #include <cstring>
@@ -31,9 +32,10 @@ void UDPReceiver::receive() {
     while(true) {
         int bytes = recvfrom(sockfd, buffer, sizeof(buffer), 0, nullptr, nullptr);
         std::cout << "Received " << bytes << " bytes\n";
-        for(int i = 0; i < bytes; i++){
-            std::cout << buffer[i];
-        }
+        auto* packet = reinterpret_cast<MarketDataPacket*>(buffer);
+        std::cout << "Sequence: " << packet->sequence << "\n";
+        std::cout << "Price: " << packet->price << "\n";
+        std::cout << "Quantity: " << packet->quantity << "\n";
         std::cout << "\n";
     }
 }

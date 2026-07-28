@@ -129,6 +129,19 @@ zero_copy_parser/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/build
 .PHONY : zero_copy_parser/fast
 
+#=============================================================================
+# Target rules for targets named sender
+
+# Build rule for target.
+sender: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sender
+.PHONY : sender
+
+# fast build rule for target.
+sender/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sender.dir/build.make CMakeFiles/sender.dir/build
+.PHONY : sender/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -153,30 +166,6 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
-src/parser.o: src/parser.cpp.o
-.PHONY : src/parser.o
-
-# target to build an object file
-src/parser.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/parser.cpp.o
-.PHONY : src/parser.cpp.o
-
-src/parser.i: src/parser.cpp.i
-.PHONY : src/parser.i
-
-# target to preprocess a source file
-src/parser.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/parser.cpp.i
-.PHONY : src/parser.cpp.i
-
-src/parser.s: src/parser.cpp.s
-.PHONY : src/parser.s
-
-# target to generate assembly for a file
-src/parser.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/parser.cpp.s
-.PHONY : src/parser.cpp.s
-
 src/ring_buffer.o: src/ring_buffer.cpp.o
 .PHONY : src/ring_buffer.o
 
@@ -200,6 +189,30 @@ src/ring_buffer.s: src/ring_buffer.cpp.s
 src/ring_buffer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/ring_buffer.cpp.s
 .PHONY : src/ring_buffer.cpp.s
+
+src/sender.o: src/sender.cpp.o
+.PHONY : src/sender.o
+
+# target to build an object file
+src/sender.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sender.dir/build.make CMakeFiles/sender.dir/src/sender.cpp.o
+.PHONY : src/sender.cpp.o
+
+src/sender.i: src/sender.cpp.i
+.PHONY : src/sender.i
+
+# target to preprocess a source file
+src/sender.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sender.dir/build.make CMakeFiles/sender.dir/src/sender.cpp.i
+.PHONY : src/sender.cpp.i
+
+src/sender.s: src/sender.cpp.s
+.PHONY : src/sender.s
+
+# target to generate assembly for a file
+src/sender.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sender.dir/build.make CMakeFiles/sender.dir/src/sender.cpp.s
+.PHONY : src/sender.cpp.s
 
 src/udp_receiver.o: src/udp_receiver.cpp.o
 .PHONY : src/udp_receiver.o
@@ -233,16 +246,17 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... sender"
 	@echo "... zero_copy_parser"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/parser.o"
-	@echo "... src/parser.i"
-	@echo "... src/parser.s"
 	@echo "... src/ring_buffer.o"
 	@echo "... src/ring_buffer.i"
 	@echo "... src/ring_buffer.s"
+	@echo "... src/sender.o"
+	@echo "... src/sender.i"
+	@echo "... src/sender.s"
 	@echo "... src/udp_receiver.o"
 	@echo "... src/udp_receiver.i"
 	@echo "... src/udp_receiver.s"
