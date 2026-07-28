@@ -1,0 +1,3 @@
+/home/nicholas/Desktop/Market-Data-Parser/build/CMakeFiles/zero_copy_parser.dir
+/home/nicholas/Desktop/Market-Data-Parser/build/CMakeFiles/edit_cache.dir
+/home/nicholas/Desktop/Market-Data-Parser/build/CMakeFiles/rebuild_cache.dir
