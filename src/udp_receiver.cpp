@@ -11,6 +11,7 @@
 
 
 UDPReceiver::UDPReceiver(int port, RingBuffer<MarketPacket, 1024>& rb) : ringBuffer(rb) {
+    std::cout << "UDP Reciver created" << "\n";
     // AF_INET uses Ipv4, SOCK_DGRAM specifics UDP
     sockfd = socket(AF_INET, SOCK_DGRAM, 0);
     if (sockfd < 0) {

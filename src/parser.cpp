@@ -1,5 +1,12 @@
 #include "market_packet.hpp"
 #include "ring_buffer.hpp"
+#include "parser.hpp"
+
+#include <iostream>
+
+Parser::Parser(RingBuffer<MarketPacket,1024>& rb): ringBuffer(rb){
+    std::cout << "Parser created" << "\n";
+}
 
 void Parser::process() {
     MarketPacket packet;

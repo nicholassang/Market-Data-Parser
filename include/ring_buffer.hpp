@@ -1,7 +1,7 @@
-#include <cstddef>
-#include <mutex>
-
 #pragma once
+
+#include <mutex>
+#include <cstddef>
 
 template<typename T, size_t N>
 class RingBuffer {
@@ -15,6 +15,7 @@ class RingBuffer {
         T buffer[N];
         size_t head = 0;
         size_t tail = 0;
+        std::mutex mutex;
 };
 
 template<typename T, size_t N>

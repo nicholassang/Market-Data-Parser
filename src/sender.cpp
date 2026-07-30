@@ -32,7 +32,7 @@ int main() {
         
         memcpy(buffer, &header, sizeof(PacketHeader));
         memcpy(buffer + sizeof(PacketHeader), &trade, sizeof(TradeMessage));
-        sendto(sockfd, buffer, header.length, 0, (sockaddr*)&addr, sizeof(addr));
+        ssize_t sent = sendto(sockfd, buffer, header.length, 0, (sockaddr*)&addr, sizeof(addr));
 
         if (sent == -1) {
             perror("sendto");
@@ -54,7 +54,7 @@ int main() {
         
         memcpy(buffer, &header, sizeof(PacketHeader));
         memcpy(buffer + sizeof(PacketHeader), &quote, sizeof(QuoteMessage));
-        sendto(sockfd, buffer, header.length, 0, (sockaddr*)&addr, sizeof(addr));
+        ssize_t sent = sendto(sockfd, buffer, header.length, 0, (sockaddr*)&addr, sizeof(addr));
 
         if (sent == -1) {
             perror("sendto");

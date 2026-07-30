@@ -1,10 +1,11 @@
 #pragma once
 
+#include "ring_buffer.hpp"
+#include "market_packet.hpp"
+
 class Parser {
     public:
-        Parser(
-            RingBuffer<MarketPacket, 1024>& rb
-        );
+        Parser(RingBuffer<MarketPacket, 1024>& rb);
 
         void process();
     

@@ -166,29 +166,29 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
-src/ring_buffer.o: src/ring_buffer.cpp.o
-.PHONY : src/ring_buffer.o
+src/parser.o: src/parser.cpp.o
+.PHONY : src/parser.o
 
 # target to build an object file
-src/ring_buffer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/ring_buffer.cpp.o
-.PHONY : src/ring_buffer.cpp.o
+src/parser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/parser.cpp.o
+.PHONY : src/parser.cpp.o
 
-src/ring_buffer.i: src/ring_buffer.cpp.i
-.PHONY : src/ring_buffer.i
+src/parser.i: src/parser.cpp.i
+.PHONY : src/parser.i
 
 # target to preprocess a source file
-src/ring_buffer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/ring_buffer.cpp.i
-.PHONY : src/ring_buffer.cpp.i
+src/parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/parser.cpp.i
+.PHONY : src/parser.cpp.i
 
-src/ring_buffer.s: src/ring_buffer.cpp.s
-.PHONY : src/ring_buffer.s
+src/parser.s: src/parser.cpp.s
+.PHONY : src/parser.s
 
 # target to generate assembly for a file
-src/ring_buffer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/ring_buffer.cpp.s
-.PHONY : src/ring_buffer.cpp.s
+src/parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/parser.cpp.s
+.PHONY : src/parser.cpp.s
 
 src/sender.o: src/sender.cpp.o
 .PHONY : src/sender.o
@@ -251,9 +251,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/ring_buffer.o"
-	@echo "... src/ring_buffer.i"
-	@echo "... src/ring_buffer.s"
+	@echo "... src/parser.o"
+	@echo "... src/parser.i"
+	@echo "... src/parser.s"
 	@echo "... src/sender.o"
 	@echo "... src/sender.i"
 	@echo "... src/sender.s"
