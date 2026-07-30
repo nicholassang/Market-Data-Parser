@@ -20,6 +20,7 @@ add_executable(zero_copy_parser
     src/main.cpp
     src/udp_receiver.cpp
     src/parser.cpp
+    src/market_handler.cpp
 )
 
 add_executable(sender

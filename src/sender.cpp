@@ -8,7 +8,7 @@
 #include "market_packet.hpp"
 
 
-int main() {
+intain() {
     int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 
     sockaddr_in addr{};

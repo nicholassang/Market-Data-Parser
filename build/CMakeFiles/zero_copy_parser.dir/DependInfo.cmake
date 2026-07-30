@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/nicholas/Desktop/Market-Data-Parser/src/logging.cpp" "CMakeFiles/zero_copy_parser.dir/src/logging.cpp.o" "gcc" "CMakeFiles/zero_copy_parser.dir/src/logging.cpp.o.d"
   "/home/nicholas/Desktop/Market-Data-Parser/src/main.cpp" "CMakeFiles/zero_copy_parser.dir/src/main.cpp.o" "gcc" "CMakeFiles/zero_copy_parser.dir/src/main.cpp.o.d"
   "/home/nicholas/Desktop/Market-Data-Parser/src/parser.cpp" "CMakeFiles/zero_copy_parser.dir/src/parser.cpp.o" "gcc" "CMakeFiles/zero_copy_parser.dir/src/parser.cpp.o.d"
   "/home/nicholas/Desktop/Market-Data-Parser/src/udp_receiver.cpp" "CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o" "gcc" "CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o.d"

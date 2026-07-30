@@ -142,6 +142,30 @@ sender/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sender.dir/build.make CMakeFiles/sender.dir/build
 .PHONY : sender/fast
 
+src/logging.o: src/logging.cpp.o
+.PHONY : src/logging.o
+
+# target to build an object file
+src/logging.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/logging.cpp.o
+.PHONY : src/logging.cpp.o
+
+src/logging.i: src/logging.cpp.i
+.PHONY : src/logging.i
+
+# target to preprocess a source file
+src/logging.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/logging.cpp.i
+.PHONY : src/logging.cpp.i
+
+src/logging.s: src/logging.cpp.s
+.PHONY : src/logging.s
+
+# target to generate assembly for a file
+src/logging.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/logging.cpp.s
+.PHONY : src/logging.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -248,6 +272,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... sender"
 	@echo "... zero_copy_parser"
+	@echo "... src/logging.o"
+	@echo "... src/logging.i"
+	@echo "... src/logging.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
