@@ -9,7 +9,7 @@ int main() {
     UDPReceiver receiver(9000,ringBuffer);
     Parser parser(ringBuffer);
 
-    // @ threads to share the same resource ringBuffer
+    // 2 threads to share the same resource ringBuffer
     std::thread receiverThread([&]() {receiver.receive();});
     std::thread parserThread([&]() {parser.process();});
     receiverThread.join();

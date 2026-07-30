@@ -1,4 +1,5 @@
 #include <cstddef>
+#include <mutex>
 
 #pragma once
 
@@ -18,6 +19,8 @@ class RingBuffer {
 
 template<typename T, size_t N>
 bool RingBuffer<T, N>::push(const T& item){
+    // Prevent data race between receiver and parser
+    std::lock_guard<std::mutex> lock(mutex);
     if (full()){
         return false;
     }
@@ -28,6 +31,8 @@ bool RingBuffer<T, N>::push(const T& item){
 
 template<typename T, size_t N>
 bool RingBuffer<T, N>::pop(T& item){
+    // Prevent data race between receiver and parser
+    std::lock_guard<std::mutex> lock(mutex);
     if (empty()){
         return false;
     }
