@@ -1,8 +1,26 @@
 #pragma once
 #include <cstdint>
 
-struct MarketDataPacket {
-    uint32_t sequence;
-    uint32_t price;
+#pragma pack(push, 1)
+
+struct PacketHeader {
+    uint16_t length;
+    uint8_t messageType;
+    uint64_t sequence;
+};
+
+// We consider messageType = 1
+struct TradeMessage {
+    char symbol[8];
+    uint64_t price;
     uint32_t quantity;
 };
+
+// We consider messageType = 2
+struct QuoteMessage {
+    char symbol[8];
+    uint64_t bidPrice;
+    uint64_t askPrice;
+};
+
+#pragma pack(pop)

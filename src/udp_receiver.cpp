@@ -32,10 +32,32 @@ void UDPReceiver::receive() {
     while(true) {
         int bytes = recvfrom(sockfd, buffer, sizeof(buffer), 0, nullptr, nullptr);
         std::cout << "Received " << bytes << " bytes\n";
-        auto* packet = reinterpret_cast<MarketDataPacket*>(buffer);
-        std::cout << "Sequence: " << packet->sequence << "\n";
-        std::cout << "Price: " << packet->price << "\n";
-        std::cout << "Quantity: " << packet->quantity << "\n";
-        std::cout << "\n";
+        if (bytes < sizeof(PacketHeader)) continue;
+
+        auto* header = reinterpret_cast<PacketHeader*>(buffer);
+        std::cout << "Length: " << header->length << "\n";
+        std::cout << "Type: " << (int)header->messageType << "\n";
+        std::cout << "Sequence: " << header->sequence << "\n";
+
+        switch (header->messageType) {
+            case 1: {
+                auto* trade = reinterpret_cast<TradeMessage*>(buffer + sizeof(PacketHeader));
+                if (bytes < sizeof(PacketHeader) + sizeof(TradeMessage)) continue;
+                std::cout<< "Symbol: "; std::cout.write(trade->symbol, 8); std::cout<<"\n"; // symbol is char array string, may not contain null terminator, use write safer
+                std::cout << "Price: " << trade->price << "\n";
+                std::cout << "Quantity: " << trade->quantity << "\n";
+                std::cout << "\n";
+                break;
+            }
+            case 2: {
+                auto* quote = reinterpret_cast<QuoteMessage*>(buffer + sizeof(PacketHeader));
+                if (bytes < sizeof(PacketHeader) + sizeof(QuoteMessage)) continue;
+                std::cout<< "Symbol: "; std::cout.write(quote->symbol, 8); std::cout<<"\n"; // symbol is char array string, may not contain null terminator, use write safer
+                std::cout << "BidPrice: " << quote->bidPrice << "\n";
+                std::cout << "AskPrice: " << quote->askPrice << "\n";
+                std::cout << "\n";
+                break;
+            }
+        }
     }
 }
