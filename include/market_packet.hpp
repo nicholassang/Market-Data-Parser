@@ -3,6 +3,11 @@
 
 #pragma pack(push, 1)
 
+struct MarketPacket {
+    char data[1024];
+    size_t length;
+};
+
 struct PacketHeader {
     uint16_t length;
     uint8_t messageType;

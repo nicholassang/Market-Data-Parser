@@ -19,6 +19,7 @@ include_directories(include)
 add_executable(zero_copy_parser
     src/main.cpp
     src/udp_receiver.cpp
+    src/parser.cpp
 )
 
 add_executable(sender
