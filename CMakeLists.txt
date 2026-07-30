@@ -19,7 +19,6 @@ include_directories(include)
 add_executable(zero_copy_parser
     src/main.cpp
     src/udp_receiver.cpp
-    src/ring_buffer.cpp
 )
 
 add_executable(sender
