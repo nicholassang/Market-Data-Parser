@@ -1,5 +1,8 @@
 #pragma once
 
+#include <cstdint>
+#include <cstddef>
+
 #include "ring_buffer.hpp"
 #include "market_packet.hpp"
 
@@ -11,4 +14,5 @@ class Parser {
     
     private:
         RingBuffer<MarketPacket, 1024>& ringBuffer;
+        uint64_t lastSequence = 0;
 };

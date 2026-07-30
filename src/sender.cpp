@@ -18,13 +18,14 @@ int main() {
 
     PacketHeader header{};
     char buffer[1024];
+    uint64_t sequence = 1;
 
     TradeMessage trade{};
     // Same Trade Message Sent mutiple times
-    for(uint64_t i = 1; i < 30; i++) {
+    for(uint64_t i = 1; i < 2; i++) {
         header.length = sizeof(PacketHeader) + sizeof(TradeMessage); // Testing a trade UDP call
         header.messageType = 1;
-        header.sequence = i;
+        header.sequence = sequence++;
     
         memcpy(trade.symbol, "ABCD", 4);
         trade.price = 18500;
@@ -43,10 +44,10 @@ int main() {
 
     QuoteMessage quote{};
     // Same Quote Message Sent mutiple times
-    for(uint64_t i = 1; i < 30; i++) {
+    for(uint64_t i = 1; i < 2; i++) {
         header.length = sizeof(PacketHeader) + sizeof(QuoteMessage); // Testing a Quote UDP call
         header.messageType = 2;
-        header.sequence = i;
+        header.sequence = sequence++;
     
         memcpy(quote.symbol, "ABCD", 4);
         quote.bidPrice = 10000;
