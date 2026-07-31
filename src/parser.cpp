@@ -4,6 +4,7 @@
 #include "market_handler.hpp"
 
 #include <iostream>
+#include <chrono>
 
 Parser::Parser(RingBuffer<MarketPacket,1024>& rb, MarketHandler& h): ringBuffer(rb), handler(h){
     std::cout << "Parser created" << "\n";
@@ -72,7 +73,7 @@ void Parser::process() {
             std::cout << "Average latency: " << totalLatency / packetCount << " ns\n";
             std::cout << "Max latency: " << maxLatency << " ns\n";
             std::cout << "Lost packets: " << totalPacketLost << "\n\n";
-            std::cout << "Ring drops: " << ringBuffer.dropped << "\n";
+            std::cout << "Ring drops: " << ringBuffer.getDrops() << "\n";
         }
     }
 }

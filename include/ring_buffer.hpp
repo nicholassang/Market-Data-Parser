@@ -1,56 +1,47 @@
 #pragma once
 
-#include <mutex>
+#include <atomic>
 #include <cstddef>
 
 template<typename T, size_t N>
 class RingBuffer {
     public:
-        bool push(const T&);
-        bool pop(T&);
-        bool empty() const;
-        bool full() const;
-        uint64_t dropped = 0;
+        bool push(const T& item) {
+            size_t currentHead = head.load(std::memory_order_relaxed);
+            size_t nextHead = (currentHead + 1) % N;
+            if (nextHead == tail.load(std::memory_order_acquire)) {
+                drops++;
+                return false;
+            }
+            buffer[currentHead] = item;
+            head.store(nextHead,std::memory_order_release);
+            return true;
+        }
+
+        bool pop(T& item) {
+            size_t currentTail = tail.load(std::memory_order_relaxed);
+            if (currentTail == head.load(std::memory_order_acquire)) {
+                return false;
+            }
+            item = buffer[currentTail];
+            tail.store((currentTail + 1) % N,std::memory_order_release);
+
+            return true;
+        }
+
+        bool empty() const {
+            return head.load() == tail.load();
+        }
+
+        size_t getDrops() const {
+            return drops.load();
+        }
 
     private:
         T buffer[N];
-        size_t head = 0;
-        size_t tail = 0;
-        std::mutex mutex;
+        alignas(64)
+        std::atomic<size_t> head{0};
+        alignas(64)
+        std::atomic<size_t> tail{0};
+        std::atomic<size_t> drops{0};
 };
-
-template<typename T, size_t N>
-bool RingBuffer<T, N>::push(const T& item){
-    // Prevent data race between receiver and parser
-    std::lock_guard<std::mutex> lock(mutex);
-    if (full()){
-        dropped++;
-        return false;
-    }
-    buffer[head] = item;
-    head = (head + 1) % N;
-    return true;
-} 
-
-template<typename T, size_t N>
-bool RingBuffer<T, N>::pop(T& item){
-    // Prevent data race between receiver and parser
-    std::lock_guard<std::mutex> lock(mutex);
-    if (empty()){
-        return false;
-    }
-
-    item = buffer[tail];
-    tail = (tail + 1) % N;
-    return true;
-} 
-
-template<typename T, size_t N>
-bool RingBuffer<T, N>::empty() const{
-    return head == tail;
-} 
-
-template<typename T, size_t N>
-bool RingBuffer<T, N>::full() const{
-    return (head + 1) % N == tail;
-} 
