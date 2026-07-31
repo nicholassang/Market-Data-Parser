@@ -37,11 +37,11 @@ UDPReceiver::~UDPReceiver() {
 
 
 void UDPReceiver::receive() {
-    char buffer[1024];
+    // Aligned to cache line
+    alignas(64) char buffer[1024];
     std::cout << "Waiting..." << "\n";
     while(true) {
         ssize_t bytes = recvfrom(sockfd, buffer, sizeof(buffer), 0, nullptr, nullptr);
-        std::cout << "Received " << bytes << " bytes\n";
         if (bytes < 0) {
             perror("recvfrom");
             continue;

@@ -10,6 +10,7 @@ class RingBuffer {
         bool pop(T&);
         bool empty() const;
         bool full() const;
+        uint64_t dropped = 0;
 
     private:
         T buffer[N];
@@ -23,6 +24,7 @@ bool RingBuffer<T, N>::push(const T& item){
     // Prevent data race between receiver and parser
     std::lock_guard<std::mutex> lock(mutex);
     if (full()){
+        dropped++;
         return false;
     }
     buffer[head] = item;

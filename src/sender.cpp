@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <chrono>
+#include <thread>
 
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -23,7 +24,7 @@ int main() {
 
     TradeMessage trade{};
     // Same Trade Message Sent mutiple times
-    for(uint64_t i = 1; i < 2; i++) {
+    for(uint64_t i = 1; i < 520000; i++) {
         header.length = sizeof(PacketHeader) + sizeof(TradeMessage); // Testing a trade UDP call
         header.messageType = 1;
         header.sequence = sequence++;
@@ -41,13 +42,16 @@ int main() {
         if (sent == -1) {
             perror("sendto");
         }
+
+        // Regulate flow of sent UDP packets
+        std::this_thread::sleep_for(std::chrono::nanoseconds(100));
     }
 
     std::cout << "Sent trade packet" << "\n";
 
     QuoteMessage quote{};
     // Same Quote Message Sent mutiple times
-    for(uint64_t i = 1; i < 2; i++) {
+    for(uint64_t i = 1; i < 520000; i++) {
         header.length = sizeof(PacketHeader) + sizeof(QuoteMessage); // Testing a Quote UDP call
         header.messageType = 2;
         header.sequence = sequence++;
@@ -65,6 +69,7 @@ int main() {
         if (sent == -1) {
             perror("sendto");
         }
+        std::this_thread::sleep_for(std::chrono::nanoseconds(100));
     }
 
     std::cout << "Sent quote packet" << "\n";

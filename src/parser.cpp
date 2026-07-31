@@ -34,12 +34,11 @@ void Parser::process() {
         maxLatency = std::max(maxLatency, latency);
 
         // Seqeunce validation
-        std::cout << "Sequence: " << header->sequence << "\n";
         if (header->sequence != expectedSequence){
-            std::cout << "Expected: " << expectedSequence << " but got " << header->sequence << "\n";
+            //std::cout << "Expected: " << expectedSequence << " but got " << header->sequence << "\n";
             uint64_t lost = header->sequence - expectedSequence;
             totalPacketLost += lost;
-            std::cout << "Lost " << lost << " packets" << "\n";
+            //std::cout << "Lost " << lost << " packets" << "\n";
         }
         expectedSequence = header->sequence + 1;
 
@@ -50,7 +49,7 @@ void Parser::process() {
                     continue;
                 }
                 auto* trade = reinterpret_cast<TradeMessage*>(packet.data + sizeof(PacketHeader));
-                handler.onTrade(*trade);
+                //handler.onTrade(*trade);
                 break;
             }
             case 2: {
@@ -58,7 +57,7 @@ void Parser::process() {
                     continue;
                 }
                 auto* quote = reinterpret_cast<QuoteMessage*>(packet.data + sizeof(PacketHeader));
-                handler.onQuote(*quote);
+                //handler.onQuote(*quote);
                 break;
             }
             default:
@@ -67,11 +66,13 @@ void Parser::process() {
         }
 
         // Print statistics in intervals 
-        if (packetCount % 100000 == 0) {
+        if (packetCount % 1000000 == 0) {
+            std::cout << "Interval: " << (packetCount % 100000) + 1 << '\n';
             std::cout << "Packets: " << packetCount << '\n';
             std::cout << "Average latency: " << totalLatency / packetCount << " ns\n";
             std::cout << "Max latency: " << maxLatency << " ns\n";
             std::cout << "Lost packets: " << totalPacketLost << "\n\n";
+            std::cout << "Ring drops: " << ringBuffer.dropped << "\n";
         }
     }
 }
