@@ -11,6 +11,12 @@ Parser::Parser(RingBuffer<MarketPacket,1024>& rb, MarketHandler& h): ringBuffer(
 
 void Parser::process() {
     MarketPacket packet;
+    uint64_t totalPacketLost = 0;
+
+    uint64_t packetCount = 0;
+    uint64_t totalLatency = 0;
+    uint64_t maxLatency = 0;
+
     while (true) {
         if (!ringBuffer.pop(packet)){
             continue;
@@ -23,12 +29,15 @@ void Parser::process() {
         auto now = std::chrono::steady_clock::now();
         auto nowNs = std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch()).count();
         auto latency = nowNs - header->timestamp;
-        std::cout << "Latency: " << latency << " ns\n";
+        packetCount++;
+        totalLatency += latency;
+        maxLatency = std::max(maxLatency, latency);
 
         // Seqeunce validation
         std::cout << "Sequence: " << header->sequence << "\n";
         if (header->sequence != expectedSequence){
             std::cout << "Expected: " << expectedSequence << " but got " << header->sequence << "\n";
+            totalPacketLost++;
         }
         expectedSequence = header->sequence + 1;
 
@@ -50,6 +59,13 @@ void Parser::process() {
                 handler.onQuote(*quote);
                 break;
             }
+            default:
+                std::cout << "Unknown message type " << int(header->messageType) << "\n";
+            break;
         }
     }
+    std::cout << "Packet Count: " << packetCount << "\n";
+    std::cout << "Total Latency: " << totalLatency << "\n";
+    std::cout << "Max Latency: " << maxLatency << "\n";
+    std::cout << "Total Packet Lost: " << totalPacketLost << "\n";
 }
