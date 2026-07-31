@@ -27,7 +27,8 @@ int main() {
         header.length = sizeof(PacketHeader) + sizeof(TradeMessage); // Testing a trade UDP call
         header.messageType = 1;
         header.sequence = sequence++;
-        header.timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
+        auto now = std::chrono::steady_clock::now();
+        header.timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch()).count();
     
         memcpy(trade.symbol, "ABCD", 4);
         trade.price = 18500;
@@ -50,7 +51,8 @@ int main() {
         header.length = sizeof(PacketHeader) + sizeof(QuoteMessage); // Testing a Quote UDP call
         header.messageType = 2;
         header.sequence = sequence++;
-        header.timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
+        auto now = std::chrono::steady_clock::now();
+        header.timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch()).count();
     
         memcpy(quote.symbol, "ABCD", 4);
         quote.bidPrice = 10000;

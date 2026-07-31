@@ -5,18 +5,13 @@
 
 #include <iostream>
 
-Parser::Parser(RingBuffer<MarketPacket,1024>& rb): ringBuffer(rb){
+Parser::Parser(RingBuffer<MarketPacket,1024>& rb, MarketHandler& h): ringBuffer(rb), handler(h){
     std::cout << "Parser created" << "\n";
 }
 
 void Parser::process() {
     MarketPacket packet;
-    MarketHandler handler;
     while (true) {
-        // Check latency
-        auto now =header.timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
-        auto latency = now - header->timestamp;
-
         if (!ringBuffer.pop(packet)){
             continue;
         }
@@ -24,6 +19,13 @@ void Parser::process() {
         if (packet.length < sizeof(PacketHeader)){
             continue;
         }
+        // Check latency
+        auto now = std::chrono::steady_clock::now();
+        auto nowNs = std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch()).count();
+        auto latency = nowNs - header->timestamp;
+        std::cout << "Latency: " << latency << " ns\n";
+
+        // Seqeunce validation
         std::cout << "Sequence: " << header->sequence << "\n";
         if (header->sequence != expectedSequence){
             std::cout << "Expected: " << expectedSequence << " but got " << header->sequence << "\n";

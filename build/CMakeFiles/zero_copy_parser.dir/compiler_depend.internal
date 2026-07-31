@@ -3,6 +3,7 @@
 
 CMakeFiles/zero_copy_parser.dir/src/main.cpp.o
  /home/nicholas/Desktop/Market-Data-Parser/src/main.cpp
+ /home/nicholas/Desktop/Market-Data-Parser/include/market_handler.hpp
  /home/nicholas/Desktop/Market-Data-Parser/include/market_packet.hpp
  /home/nicholas/Desktop/Market-Data-Parser/include/parser.hpp
  /home/nicholas/Desktop/Market-Data-Parser/include/ring_buffer.hpp

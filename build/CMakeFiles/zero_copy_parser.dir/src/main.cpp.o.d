@@ -206,4 +206,5 @@ CMakeFiles/zero_copy_parser.dir/src/main.cpp.o: \
  /home/nicholas/Desktop/Market-Data-Parser/include/ring_buffer.hpp \
  /usr/include/c++/13/mutex /usr/include/c++/13/bits/unique_lock.h \
  /home/nicholas/Desktop/Market-Data-Parser/include/market_packet.hpp \
+ /home/nicholas/Desktop/Market-Data-Parser/include/market_handler.hpp \
  /home/nicholas/Desktop/Market-Data-Parser/include/udp_receiver.hpp
