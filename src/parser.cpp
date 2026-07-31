@@ -37,7 +37,9 @@ void Parser::process() {
         std::cout << "Sequence: " << header->sequence << "\n";
         if (header->sequence != expectedSequence){
             std::cout << "Expected: " << expectedSequence << " but got " << header->sequence << "\n";
-            totalPacketLost++;
+            uint64_t lost = header->sequence - expectedSequence;
+            totalPacketLost += lost;
+            std::cout << "Lost " << lost << " packets" << "\n";
         }
         expectedSequence = header->sequence + 1;
 
@@ -63,9 +65,13 @@ void Parser::process() {
                 std::cout << "Unknown message type " << int(header->messageType) << "\n";
             break;
         }
+
+        // Print statistics in intervals 
+        if (packetCount % 100000 == 0) {
+            std::cout << "Packets: " << packetCount << '\n';
+            std::cout << "Average latency: " << totalLatency / packetCount << " ns\n";
+            std::cout << "Max latency: " << maxLatency << " ns\n";
+            std::cout << "Lost packets: " << totalPacketLost << "\n\n";
+        }
     }
-    std::cout << "Packet Count: " << packetCount << "\n";
-    std::cout << "Total Latency: " << totalLatency << "\n";
-    std::cout << "Max Latency: " << maxLatency << "\n";
-    std::cout << "Total Packet Lost: " << totalPacketLost << "\n";
 }
