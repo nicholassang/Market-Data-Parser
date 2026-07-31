@@ -10,7 +10,7 @@
 #include <unistd.h>
 
 
-UDPReceiver::UDPReceiver(int port, RingBuffer<MarketPacket, 1024>& rb) : ringBuffer(rb) {
+UDPReceiver::UDPReceiver(int port, RingBuffer<MarketPacket*, 1024>& rb, PacketPool<1024>& p) : ringBuffer(rb), pool(p) {
     std::cout << "UDP Reciver created" << "\n";
     // AF_INET uses Ipv4, SOCK_DGRAM specifics UDP
     sockfd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -37,24 +37,29 @@ UDPReceiver::~UDPReceiver() {
 
 
 void UDPReceiver::receive() {
-    // Aligned to cache line
-    alignas(64) char buffer[1024];
     std::cout << "Waiting..." << "\n";
     while(true) {
-        ssize_t bytes = recvfrom(sockfd, buffer, sizeof(buffer), 0, nullptr, nullptr);
-        if (bytes < 0) {
+        MarketPacket* packet = pool.acquire();
+        if(packet == nullptr){
+            std::cout<<"Pool empty\n";
+            continue;
+        }
+        ssize_t bytes = recvfrom(sockfd, packet->data, sizeof(packet->data), 0, nullptr, nullptr);
+        if(bytes < 0){
             perror("recvfrom");
+            pool.release(packet);
             continue;
         }
-        MarketPacket packet{};
-        if (static_cast<size_t>(bytes) > sizeof(packet.data)) {
+        if(static_cast<size_t>(bytes) > sizeof(packet->data)){
+            pool.release(packet);
             continue;
         }
-        packet.length = bytes;
-        memcpy(packet.data, buffer, bytes);
 
-        if (!ringBuffer.push(packet)) {
-            std::cout << "Ring buffer full!\n";
+        packet->length = bytes;
+
+        if(!ringBuffer.push(packet)){
+            std::cout << "Ring full\n";
+            pool.release(packet);
         }
     }
 }

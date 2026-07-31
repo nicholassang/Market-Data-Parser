@@ -6,12 +6,13 @@
 #include <iostream>
 #include <chrono>
 
-Parser::Parser(RingBuffer<MarketPacket,1024>& rb, MarketHandler& h): ringBuffer(rb), handler(h){
+Parser::Parser(RingBuffer<MarketPacket*,1024>& rb, MarketHandler& h, PacketPool<1024>& p): ringBuffer(rb), handler(h), pool(p){
     std::cout << "Parser created" << "\n";
 }
 
 void Parser::process() {
-    MarketPacket packet;
+    MarketPacket* packet;
+
     uint64_t totalPacketLost = 0;
 
     uint64_t packetCount = 0;
@@ -22,8 +23,8 @@ void Parser::process() {
         if (!ringBuffer.pop(packet)){
             continue;
         }
-        auto* header = reinterpret_cast<PacketHeader*>(packet.data);
-        if (packet.length < sizeof(PacketHeader)){
+        auto* header = reinterpret_cast<PacketHeader*>(packet->data);
+        if (packet->length < sizeof(PacketHeader)){
             continue;
         }
         // Check latency
@@ -46,18 +47,18 @@ void Parser::process() {
         // Consume market packet from ring buffer
         switch (header->messageType) {
             case 1: {
-                if (packet.length < sizeof(PacketHeader) + sizeof(TradeMessage)){
+                if (packet->length < sizeof(PacketHeader) + sizeof(TradeMessage)){
                     continue;
                 }
-                auto* trade = reinterpret_cast<TradeMessage*>(packet.data + sizeof(PacketHeader));
+                auto* trade = reinterpret_cast<TradeMessage*>(packet->data + sizeof(PacketHeader));
                 //handler.onTrade(*trade);
                 break;
             }
             case 2: {
-                if (packet.length < sizeof(PacketHeader) + sizeof(QuoteMessage)){
+                if (packet->length < sizeof(PacketHeader) + sizeof(QuoteMessage)){
                     continue;
                 }
-                auto* quote = reinterpret_cast<QuoteMessage*>(packet.data + sizeof(PacketHeader));
+                auto* quote = reinterpret_cast<QuoteMessage*>(packet->data + sizeof(PacketHeader));
                 //handler.onQuote(*quote);
                 break;
             }
@@ -65,6 +66,8 @@ void Parser::process() {
                 std::cout << "Unknown message type " << int(header->messageType) << "\n";
             break;
         }
+
+        pool.release(packet);
 
         // Print statistics in intervals 
         if (packetCount % 1000000 == 0) {

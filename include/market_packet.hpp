@@ -4,7 +4,7 @@
 
 #pragma pack(push, 1)
 
-struct MarketPacket {
+struct alignas(64) MarketPacket {
     char data[1024];
     size_t length;
 };
