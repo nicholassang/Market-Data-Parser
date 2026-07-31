@@ -142,30 +142,6 @@ sender/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sender.dir/build.make CMakeFiles/sender.dir/build
 .PHONY : sender/fast
 
-src/logging.o: src/logging.cpp.o
-.PHONY : src/logging.o
-
-# target to build an object file
-src/logging.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/logging.cpp.o
-.PHONY : src/logging.cpp.o
-
-src/logging.i: src/logging.cpp.i
-.PHONY : src/logging.i
-
-# target to preprocess a source file
-src/logging.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/logging.cpp.i
-.PHONY : src/logging.cpp.i
-
-src/logging.s: src/logging.cpp.s
-.PHONY : src/logging.s
-
-# target to generate assembly for a file
-src/logging.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/logging.cpp.s
-.PHONY : src/logging.cpp.s
-
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -189,6 +165,30 @@ src/main.s: src/main.cpp.s
 src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
+
+src/market_handler.o: src/market_handler.cpp.o
+.PHONY : src/market_handler.o
+
+# target to build an object file
+src/market_handler.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/market_handler.cpp.o
+.PHONY : src/market_handler.cpp.o
+
+src/market_handler.i: src/market_handler.cpp.i
+.PHONY : src/market_handler.i
+
+# target to preprocess a source file
+src/market_handler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/market_handler.cpp.i
+.PHONY : src/market_handler.cpp.i
+
+src/market_handler.s: src/market_handler.cpp.s
+.PHONY : src/market_handler.s
+
+# target to generate assembly for a file
+src/market_handler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/market_handler.cpp.s
+.PHONY : src/market_handler.cpp.s
 
 src/parser.o: src/parser.cpp.o
 .PHONY : src/parser.o
@@ -272,12 +272,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... sender"
 	@echo "... zero_copy_parser"
-	@echo "... src/logging.o"
-	@echo "... src/logging.i"
-	@echo "... src/logging.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/market_handler.o"
+	@echo "... src/market_handler.i"
+	@echo "... src/market_handler.s"
 	@echo "... src/parser.o"
 	@echo "... src/parser.i"
 	@echo "... src/parser.s"

@@ -13,6 +13,7 @@ struct PacketHeader {
     uint16_t length;
     uint8_t messageType;
     uint64_t sequence;
+    uint64_t timestamp;
 };
 
 // We consider messageType = 1

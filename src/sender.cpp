@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <chrono>
 
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -8,7 +9,7 @@
 #include "market_packet.hpp"
 
 
-intain() {
+int main() {
     int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 
     sockaddr_in addr{};
@@ -26,6 +27,7 @@ intain() {
         header.length = sizeof(PacketHeader) + sizeof(TradeMessage); // Testing a trade UDP call
         header.messageType = 1;
         header.sequence = sequence++;
+        header.timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
     
         memcpy(trade.symbol, "ABCD", 4);
         trade.price = 18500;
@@ -48,6 +50,7 @@ intain() {
         header.length = sizeof(PacketHeader) + sizeof(QuoteMessage); // Testing a Quote UDP call
         header.messageType = 2;
         header.sequence = sequence++;
+        header.timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
     
         memcpy(quote.symbol, "ABCD", 4);
         quote.bidPrice = 10000;

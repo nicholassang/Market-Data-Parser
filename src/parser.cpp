@@ -13,6 +13,10 @@ void Parser::process() {
     MarketPacket packet;
     MarketHandler handler;
     while (true) {
+        // Check latency
+        auto now =header.timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
+        auto latency = now - header->timestamp;
+
         if (!ringBuffer.pop(packet)){
             continue;
         }
@@ -21,10 +25,10 @@ void Parser::process() {
             continue;
         }
         std::cout << "Sequence: " << header->sequence << "\n";
-        if (header->sequence != lastSequence + 1){
-            std::cout << "Packet Lost" << "\n";
+        if (header->sequence != expectedSequence){
+            std::cout << "Expected: " << expectedSequence << " but got " << header->sequence << "\n";
         }
-        lastSequence = header->sequence;
+        expectedSequence = header->sequence + 1;
 
         // Consume market packet from ring buffer
         switch (header->messageType) {

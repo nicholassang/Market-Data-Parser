@@ -14,5 +14,5 @@ class Parser {
     
     private:
         RingBuffer<MarketPacket, 1024>& ringBuffer;
-        uint64_t lastSequence = 0;
+        uint64_t expectedSequence = 1;
 };

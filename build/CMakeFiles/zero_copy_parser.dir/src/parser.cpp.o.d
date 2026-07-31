@@ -99,7 +99,7 @@ CMakeFiles/zero_copy_parser.dir/src/parser.cpp.o: \
  /usr/include/x86_64-linux-gnu/c++/13/bits/atomic_word.h \
  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
  /home/nicholas/Desktop/Market-Data-Parser/include/parser.hpp \
- /home/nicholas/Desktop/Market-Data-Parser/include/logging.hpp \
+ /home/nicholas/Desktop/Market-Data-Parser/include/market_handler.hpp \
  /usr/include/c++/13/iostream /usr/include/c++/13/ostream \
  /usr/include/c++/13/ios /usr/include/c++/13/iosfwd \
  /usr/include/c++/13/bits/stringfwd.h \
