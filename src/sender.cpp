@@ -62,6 +62,8 @@ int main() {
         memcpy(quote.symbol, "ABCD", 4);
         quote.bidPrice = 10000;
         quote.askPrice = 9850;
+        quote.bidQuantity = 1;
+        quote.askQuantity = 1;
         
         memcpy(buffer, &header, sizeof(PacketHeader));
         memcpy(buffer + sizeof(PacketHeader), &quote, sizeof(QuoteMessage));

@@ -10,7 +10,11 @@
 #include <iostream>
 #include <chrono>
 
-Parser::Parser(RingBuffer<MarketPacket*,65536>& rb, MarketHandler& h, PacketPool<65536>& p, Decoder& d): ringBuffer(rb), handler(h), pool(p), decoder(d){
+Parser::Parser(RingBuffer<MarketPacket*,65536>& rb, MarketHandler& h, PacketPool<65536>& p, Decoder& d): 
+    ringBuffer(rb), 
+    handler(h), 
+    pool(p), 
+    decoder(d){
     std::cout << "Parser created" << "\n";
 }
 
@@ -81,8 +85,7 @@ void Parser::processPacket(MarketPacket* packet){
     }
     expectedSequence = header->sequence + 1;
 
-    // Commented out for now to test latency, cout is computationally expensive for 1000000~ UDP packets
-    // decoder.decode(packet, handler);
+    decoder.decode(packet, handler);
 
     pool.release(packet);
 }

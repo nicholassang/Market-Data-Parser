@@ -33,6 +33,8 @@ struct QuoteMessage {
     char symbol[8];
     uint64_t bidPrice;
     uint64_t askPrice;
+    uint32_t bidQuantity;
+    uint32_t askQuantity;
 };
 
 #pragma pack(pop)

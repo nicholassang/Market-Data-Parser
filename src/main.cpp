@@ -10,6 +10,7 @@
 #include "packet_pool.hpp"
 #include "decoder.hpp"
 #include "cpu_affinity.hpp"
+#include "order_book.hpp"
 
 void signalHandler(int){
     Runtime::running = false;
@@ -28,8 +29,11 @@ int main() {
         */
     auto pool = std::make_unique<PacketPool<65536>>();
 
+    // Order Book
+    OrderBook orderBook;
+
     // Handler for logging etc.
-    MarketHandler handler;
+    MarketHandler handler(orderBook);
     // Decoder for datatype handling
     Decoder decoder;
     // Receiver
