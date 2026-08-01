@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <cstddef>
+#include <array>
 
 #include "ring_buffer.hpp"
 #include "market_packet.hpp"
@@ -19,8 +20,13 @@ class Parser {
         RingBuffer<MarketPacket*, 1024>& ringBuffer;
         MarketHandler& handler;
         PacketPool<1024>& pool;
-        Decoder decoder;
+        Decoder& decoder;
+
+        std::array<uint64_t, 10> latencyBuckets{};
+
+        void recordLatency(uint64_t latency);
         void processPacket(MarketPacket* packet);
+        uint64_t getPercentile(double percentile);
 
         uint64_t expectedSequence = 1;
         uint64_t totalPacketLost = 0;
