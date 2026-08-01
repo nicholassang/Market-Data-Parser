@@ -3,8 +3,7 @@
 #include <pthread.h>
 #include <sched.h>
 
-inline void pinThread(int cpu)
-{
+inline void pinThread(int cpu){
     cpu_set_t cpuset;
 
     CPU_ZERO(&cpuset);

@@ -9,6 +9,7 @@
 #include "market_handler.hpp"
 #include "packet_pool.hpp"
 #include "decoder.hpp"
+#include "cpu_affinity.hpp"
 
 void signalHandler(int){
     Runtime::running = false;
@@ -37,8 +38,14 @@ int main() {
     Parser parser(ringBuffer, handler, *pool, decoder);
 
     // 2 threads to share the same resource ringBuffer
-    std::thread receiverThread([&]() {receiver.receive();});
-    std::thread parserThread([&]() {parser.process();});
+    std::thread receiverThread([&]() {
+        pinThread(0);
+        receiver.receive();
+    });
+    std::thread parserThread([&]() {
+        pinThread(1);
+        parser.process();
+    });
     receiverThread.join();
     parserThread.join();
 
