@@ -142,6 +142,30 @@ sender/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sender.dir/build.make CMakeFiles/sender.dir/build
 .PHONY : sender/fast
 
+src/decoder.o: src/decoder.cpp.o
+.PHONY : src/decoder.o
+
+# target to build an object file
+src/decoder.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/decoder.cpp.o
+.PHONY : src/decoder.cpp.o
+
+src/decoder.i: src/decoder.cpp.i
+.PHONY : src/decoder.i
+
+# target to preprocess a source file
+src/decoder.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/decoder.cpp.i
+.PHONY : src/decoder.cpp.i
+
+src/decoder.s: src/decoder.cpp.s
+.PHONY : src/decoder.s
+
+# target to generate assembly for a file
+src/decoder.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/decoder.cpp.s
+.PHONY : src/decoder.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -272,6 +296,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... sender"
 	@echo "... zero_copy_parser"
+	@echo "... src/decoder.o"
+	@echo "... src/decoder.i"
+	@echo "... src/decoder.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

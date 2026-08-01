@@ -21,6 +21,7 @@ add_executable(zero_copy_parser
     src/udp_receiver.cpp
     src/parser.cpp
     src/market_handler.cpp
+    src/decoder.cpp
 )
 
 add_executable(sender

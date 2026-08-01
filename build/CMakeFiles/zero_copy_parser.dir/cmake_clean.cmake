@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/zero_copy_parser.dir/src/decoder.cpp.o"
+  "CMakeFiles/zero_copy_parser.dir/src/decoder.cpp.o.d"
   "CMakeFiles/zero_copy_parser.dir/src/main.cpp.o"
   "CMakeFiles/zero_copy_parser.dir/src/main.cpp.o.d"
   "CMakeFiles/zero_copy_parser.dir/src/market_handler.cpp.o"

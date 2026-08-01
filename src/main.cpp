@@ -6,6 +6,7 @@
 #include "ring_buffer.hpp"
 #include "market_handler.hpp"
 #include "packet_pool.hpp"
+#include "decoder.hpp"
 
 int main() {
     // Ring Buffer
@@ -14,10 +15,12 @@ int main() {
     PacketPool<1024> pool;
     // Handler for logging etc.
     MarketHandler handler;
+    // Decoder for datatype handling
+    Decoder decoder;
     // Receiver
     UDPReceiver receiver(9000, ringBuffer, pool);
     // Parser
-    Parser parser(ringBuffer, handler, pool);
+    Parser parser(ringBuffer, handler, pool, decoder);
 
     // 2 threads to share the same resource ringBuffer
     std::thread receiverThread([&]() {receiver.receive();});
