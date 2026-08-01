@@ -36,6 +36,7 @@ CMakeFiles/zero_copy_parser.dir/src/decoder.cpp.o
 CMakeFiles/zero_copy_parser.dir/src/main.cpp.o
  /home/nicholas/Desktop/Market-Data-Parser/src/main.cpp
  /home/nicholas/Desktop/Market-Data-Parser/include/cache_aligned_atomic.hpp
+ /home/nicholas/Desktop/Market-Data-Parser/include/cpu_affinity.hpp
  /home/nicholas/Desktop/Market-Data-Parser/include/decoder.hpp
  /home/nicholas/Desktop/Market-Data-Parser/include/market_handler.hpp
  /home/nicholas/Desktop/Market-Data-Parser/include/market_packet.hpp

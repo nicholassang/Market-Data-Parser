@@ -19,6 +19,20 @@ UDPReceiver::UDPReceiver(int port, RingBuffer<MarketPacket*, 65536>& rb, PacketP
         perror("socket");
         std::exit(EXIT_FAILURE);
     }
+
+    // Set sockfd to timeout after 1s for Ctrl C to work
+    timeval timeout{};
+    timeout.tv_sec = 1;
+    timeout.tv_usec = 0;
+    
+    setsockopt(
+        sockfd,
+        SOL_SOCKET,
+        SO_RCVTIMEO,
+        &timeout,
+        sizeof(timeout)
+    );
+
     sockaddr_in addr{};
 
     addr.sin_family = AF_INET;
@@ -41,13 +55,12 @@ void UDPReceiver::receive() {
     std::cout << "Waiting..." << "\n";
     while(Runtime::running) {
         MarketPacket* packet = pool.acquire();
+        // If empty
         if(packet == nullptr){
-            std::cout<<"Pool empty\n";
             continue;
         }
         ssize_t bytes = recvfrom(sockfd, packet->data, sizeof(packet->data), 0, nullptr, nullptr);
         if(bytes < 0){
-            perror("recvfrom");
             pool.release(packet);
             continue;
         }
@@ -58,8 +71,8 @@ void UDPReceiver::receive() {
 
         packet->length = bytes;
 
+        // If full
         if(!ringBuffer.push(packet)){
-            std::cout << "Ring full\n";
             pool.release(packet);
         }
     }

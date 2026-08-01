@@ -34,6 +34,7 @@ CMakeFiles/zero_copy_parser.dir/src/decoder.cpp.o: /home/nicholas/Desktop/Market
 
 CMakeFiles/zero_copy_parser.dir/src/main.cpp.o: /home/nicholas/Desktop/Market-Data-Parser/src/main.cpp \
   /home/nicholas/Desktop/Market-Data-Parser/include/cache_aligned_atomic.hpp \
+  /home/nicholas/Desktop/Market-Data-Parser/include/cpu_affinity.hpp \
   /home/nicholas/Desktop/Market-Data-Parser/include/decoder.hpp \
   /home/nicholas/Desktop/Market-Data-Parser/include/market_handler.hpp \
   /home/nicholas/Desktop/Market-Data-Parser/include/market_packet.hpp \
@@ -1754,6 +1755,16 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 
 /usr/include/x86_64-linux-gnu/bits/posix2_lim.h:
 
+/usr/include/c++/13/bits/streambuf_iterator.h:
+
+/usr/include/c++/13/ostream:
+
+/usr/include/c++/13/bits/locale_facets_nonio.h:
+
+/usr/include/x86_64-linux-gnu/bits/confname.h:
+
+/usr/include/x86_64-linux-gnu/bits/siginfo-arch.h:
+
 /usr/lib/gcc/x86_64-linux-gnu/13/include/avx512vbmivlintrin.h:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
@@ -1761,10 +1772,6 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 /usr/include/x86_64-linux-gnu/bits/endian.h:
 
 /usr/include/c++/13/csignal:
-
-/usr/include/c++/13/debug/debug.h:
-
-/usr/include/linux/errno.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
 
@@ -1854,15 +1861,9 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 
 /usr/include/x86_64-linux-gnu/bits/semaphore.h:
 
-/usr/include/c++/13/bits/streambuf_iterator.h:
+/usr/include/linux/errno.h:
 
-/usr/include/c++/13/ostream:
-
-/usr/include/c++/13/bits/locale_facets_nonio.h:
-
-/usr/include/x86_64-linux-gnu/bits/confname.h:
-
-/usr/include/x86_64-linux-gnu/bits/siginfo-arch.h:
+/usr/include/c++/13/debug/debug.h:
 
 /usr/include/c++/13/exception:
 
@@ -1893,6 +1894,12 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 /usr/include/c++/13/ext/type_traits.h:
 
 /usr/include/c++/13/ios:
+
+/usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
+
+/home/nicholas/Desktop/Market-Data-Parser/include/cache_aligned_atomic.hpp:
+
+/usr/include/c++/13/limits:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/waitpkgintrin.h:
 
@@ -1958,6 +1965,8 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 
 /usr/include/x86_64-linux-gnu/asm/unistd.h:
 
+/home/nicholas/Desktop/Market-Data-Parser/include/cpu_affinity.hpp:
+
 /usr/include/x86_64-linux-gnu/asm/unistd_64.h:
 
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
@@ -1973,12 +1982,6 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 /usr/include/c++/13/bits/requires_hosted.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn-common.h:
-
-/home/nicholas/Desktop/Market-Data-Parser/include/cache_aligned_atomic.hpp:
-
-/usr/include/c++/13/limits:
-
-/usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/getopt_core.h:
 
