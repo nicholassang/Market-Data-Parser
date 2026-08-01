@@ -9,6 +9,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <sys/epoll.h>
 
 
 UDPReceiver::UDPReceiver(int port, RingBuffer<MarketPacket*, 65536>& rb, PacketPool<65536>& p) : ringBuffer(rb), pool(p) {
@@ -19,6 +21,10 @@ UDPReceiver::UDPReceiver(int port, RingBuffer<MarketPacket*, 65536>& rb, PacketP
         perror("socket");
         std::exit(EXIT_FAILURE);
     }
+
+    // Non blocking
+    int flags = fcntl(sockfd, F_GETFL, 0);
+    fcntl(sockfd, F_SETFL, flags | O_NONBLOCK);
 
     // Set sockfd to timeout after 1s for Ctrl C to work
     timeval timeout{};
@@ -43,37 +49,81 @@ UDPReceiver::UDPReceiver(int port, RingBuffer<MarketPacket*, 65536>& rb, PacketP
         perror("bind");
         std::exit(EXIT_FAILURE);
     }
+
+    // Epoll for non-blocking socket
+    epollFd = epoll_create1(0);
+
+    if(epollFd < 0){
+        perror("epoll_create1");
+        exit(EXIT_FAILURE);
+    }
+    
+    
+    epoll_event event{};
+    event.events = EPOLLIN;
+    event.data.fd = sockfd;
+    
+    
+    if(epoll_ctl(
+            epollFd,
+            EPOLL_CTL_ADD,
+            sockfd,
+            &event
+    ) < 0)
+    {
+        perror("epoll_ctl");
+        exit(EXIT_FAILURE);
+    }
 }
 
 
-UDPReceiver::~UDPReceiver() {
+UDPReceiver::~UDPReceiver(){
     close(sockfd);
+    close(epollFd);
 }
 
 
-void UDPReceiver::receive() {
-    std::cout << "Waiting..." << "\n";
-    while(Runtime::running) {
-        MarketPacket* packet = pool.acquire();
-        // If empty
-        if(packet == nullptr){
-            continue;
+void UDPReceiver::receive(){
+    epoll_event events[1];
+    while(Runtime::running){
+        int n = epoll_wait(
+            epollFd,
+            events,
+            1,
+            1000
+        );
+        if(n < 0){
+            perror("epoll_wait");
+            break;
         }
-        ssize_t bytes = recvfrom(sockfd, packet->data, sizeof(packet->data), 0, nullptr, nullptr);
-        if(bytes < 0){
-            pool.release(packet);
-            continue;
-        }
-        if(static_cast<size_t>(bytes) > sizeof(packet->data)){
-            pool.release(packet);
+        if(n == 0) {
             continue;
         }
 
-        packet->length = bytes;
-
-        // If full
-        if(!ringBuffer.push(packet)){
-            pool.release(packet);
+        if(events[0].events & EPOLLIN){
+            MarketPacket* packet = pool.acquire();
+            // If Empty
+            if(packet == nullptr){
+                continue;
+            }
+            ssize_t bytes =
+                recvfrom(
+                    sockfd,
+                    packet->data,
+                    sizeof(packet->data),
+                    0,
+                    nullptr,
+                    nullptr
+                );
+            if(bytes > 0){
+                packet->length = bytes;
+                // If full
+                if(!ringBuffer.push(packet)){
+                    pool.release(packet);
+                }
+            } else{
+                pool.release(packet);
+            }
         }
     }
 }
