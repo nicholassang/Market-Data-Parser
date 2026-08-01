@@ -1,6 +1,7 @@
 #include "udp_receiver.hpp"
 #include "market_packet.hpp"
 #include "ring_buffer.hpp"
+#include "runtime.hpp"
 
 #include <iostream>
 #include <cstring>
@@ -38,7 +39,7 @@ UDPReceiver::~UDPReceiver() {
 
 void UDPReceiver::receive() {
     std::cout << "Waiting..." << "\n";
-    while(true) {
+    while(Runtime::running) {
         MarketPacket* packet = pool.acquire();
         if(packet == nullptr){
             std::cout<<"Pool empty\n";

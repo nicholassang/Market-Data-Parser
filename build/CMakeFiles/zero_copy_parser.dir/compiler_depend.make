@@ -33,6 +33,7 @@ CMakeFiles/zero_copy_parser.dir/src/decoder.cpp.o: /home/nicholas/Desktop/Market
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h
 
 CMakeFiles/zero_copy_parser.dir/src/main.cpp.o: /home/nicholas/Desktop/Market-Data-Parser/src/main.cpp \
+  /home/nicholas/Desktop/Market-Data-Parser/include/cache_aligned_atomic.hpp \
   /home/nicholas/Desktop/Market-Data-Parser/include/decoder.hpp \
   /home/nicholas/Desktop/Market-Data-Parser/include/market_handler.hpp \
   /home/nicholas/Desktop/Market-Data-Parser/include/market_packet.hpp \
@@ -504,6 +505,7 @@ CMakeFiles/zero_copy_parser.dir/src/market_handler.cpp.o: /home/nicholas/Desktop
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h
 
 CMakeFiles/zero_copy_parser.dir/src/parser.cpp.o: /home/nicholas/Desktop/Market-Data-Parser/src/parser.cpp \
+  /home/nicholas/Desktop/Market-Data-Parser/include/cache_aligned_atomic.hpp \
   /home/nicholas/Desktop/Market-Data-Parser/include/decoder.hpp \
   /home/nicholas/Desktop/Market-Data-Parser/include/market_handler.hpp \
   /home/nicholas/Desktop/Market-Data-Parser/include/market_packet.hpp \
@@ -893,6 +895,7 @@ CMakeFiles/zero_copy_parser.dir/src/parser.cpp.o: /home/nicholas/Desktop/Market-
   /usr/lib/gcc/x86_64-linux-gnu/13/include/xtestintrin.h
 
 CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/Market-Data-Parser/src/udp_receiver.cpp \
+  /home/nicholas/Desktop/Market-Data-Parser/include/cache_aligned_atomic.hpp \
   /home/nicholas/Desktop/Market-Data-Parser/include/market_packet.hpp \
   /home/nicholas/Desktop/Market-Data-Parser/include/packet_pool.hpp \
   /home/nicholas/Desktop/Market-Data-Parser/include/ring_buffer.hpp \
@@ -1381,9 +1384,7 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h:
 
-/usr/include/c++/13/cctype:
-
-/usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
+/usr/include/x86_64-linux-gnu/sys/types.h:
 
 /usr/include/c++/13/debug/assertions.h:
 
@@ -1533,12 +1534,6 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 
 /usr/include/c++/13/bits/localefwd.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/13/include/avx512vbmivlintrin.h:
-
-/usr/include/x86_64-linux-gnu/gnu/stubs.h:
-
-/usr/include/x86_64-linux-gnu/bits/endian.h:
-
 /usr/lib/gcc/x86_64-linux-gnu/13/include/avx512ifmavlintrin.h:
 
 /usr/include/x86_64-linux-gnu/bits/types.h:
@@ -1617,6 +1612,24 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 
 /usr/include/c++/13/bit:
 
+/usr/include/c++/13/bits/exception.h:
+
+/usr/include/c++/13/bits/memory_resource.h:
+
+/usr/include/c++/13/streambuf:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/avx512fintrin.h:
+
+/usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
+
+/usr/include/c++/13/bits/cxxabi_init_exception.h:
+
+/usr/include/c++/13/typeinfo:
+
+/home/nicholas/Desktop/Market-Data-Parser/include/market_handler.hpp:
+
 /usr/include/c++/13/cerrno:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-least.h:
@@ -1640,8 +1653,6 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h:
 
 /home/nicholas/Desktop/Market-Data-Parser/src/decoder.cpp:
-
-/usr/include/x86_64-linux-gnu/sys/types.h:
 
 /home/nicholas/Desktop/Market-Data-Parser/include/market_packet.hpp:
 
@@ -1685,6 +1696,22 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 
 /usr/include/c++/13/bits/cxxabi_forced.h:
 
+/usr/lib/gcc/x86_64-linux-gnu/13/include/avx512vbmivlintrin.h:
+
+/usr/include/x86_64-linux-gnu/gnu/stubs.h:
+
+/usr/include/x86_64-linux-gnu/bits/endian.h:
+
+/usr/include/c++/13/debug/debug.h:
+
+/usr/include/linux/errno.h:
+
+/usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
+
+/usr/include/c++/13/cctype:
+
+/usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
+
 /home/nicholas/Desktop/Market-Data-Parser/include/packet_pool.hpp:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/x86intrin.h:
@@ -1698,6 +1725,16 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 /usr/include/x86_64-linux-gnu/sys/select.h:
 
 /usr/include/c++/13/cwchar:
+
+/usr/include/stdc-predef.h:
+
+/usr/include/c++/13/bits/basic_string.h:
+
+/usr/include/c++/13/bits/chrono.h:
+
+/usr/include/x86_64-linux-gnu/bits/endianness.h:
+
+/usr/include/c++/13/atomic:
 
 /usr/include/c++/13/bits/atomic_lockfree_defines.h:
 
@@ -1755,16 +1792,6 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 
 /usr/include/limits.h:
 
-/usr/include/stdc-predef.h:
-
-/usr/include/c++/13/atomic:
-
-/usr/include/c++/13/bits/basic_string.h:
-
-/usr/include/c++/13/bits/chrono.h:
-
-/usr/include/x86_64-linux-gnu/bits/endianness.h:
-
 /usr/include/c++/13/bits/streambuf_iterator.h:
 
 /usr/include/c++/13/ostream:
@@ -1772,24 +1799,6 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 /usr/include/c++/13/bits/locale_facets_nonio.h:
 
 /usr/include/x86_64-linux-gnu/bits/confname.h:
-
-/usr/include/c++/13/bits/exception.h:
-
-/usr/include/c++/13/bits/memory_resource.h:
-
-/usr/include/c++/13/streambuf:
-
-/usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/avx512fintrin.h:
-
-/usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
-
-/home/nicholas/Desktop/Market-Data-Parser/include/market_handler.hpp:
-
-/usr/include/c++/13/bits/cxxabi_init_exception.h:
-
-/usr/include/c++/13/typeinfo:
 
 /usr/include/c++/13/bits/stl_iterator.h:
 
@@ -1841,12 +1850,6 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 
 /usr/include/linux/close_range.h:
 
-/usr/include/c++/13/debug/debug.h:
-
-/usr/include/linux/errno.h:
-
-/usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
-
 /usr/lib/gcc/x86_64-linux-gnu/13/include/avx512vpopcntdqintrin.h:
 
 /usr/include/locale.h:
@@ -1886,6 +1889,8 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 /usr/include/c++/13/bits/requires_hosted.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn-common.h:
+
+/home/nicholas/Desktop/Market-Data-Parser/include/cache_aligned_atomic.hpp:
 
 /usr/include/c++/13/limits:
 

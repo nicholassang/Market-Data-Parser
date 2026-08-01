@@ -3,9 +3,10 @@
 #include "parser.hpp"
 #include "market_handler.hpp"
 #include "decoder.hpp"
+#include "runtime.hpp"
+
 #include <immintrin.h>
 #include <x86intrin.h>
-
 #include <iostream>
 #include <chrono>
 
@@ -16,7 +17,7 @@ Parser::Parser(RingBuffer<MarketPacket*,65536>& rb, MarketHandler& h, PacketPool
 void Parser::process() {
     MarketPacket* packet;
 
-    while (true) {
+    while (Runtime::running) {
         int processed = 0;
         while(processed < 64 && ringBuffer.pop(packet)){
             processPacket(packet);

@@ -1,5 +1,7 @@
 #include <thread>
+#include <csignal>
 
+#include "runtime.hpp"
 #include "parser.hpp"
 #include "udp_receiver.hpp"
 #include "market_packet.hpp"
@@ -8,7 +10,14 @@
 #include "packet_pool.hpp"
 #include "decoder.hpp"
 
+void signalHandler(int){
+    Runtime::running = false;
+}
+
 int main() {
+    // For graceful shutdown
+    signal(SIGINT, signalHandler);
+
     // Ring Buffer
     RingBuffer<MarketPacket*, 65536> ringBuffer;
     // Packet Pool
