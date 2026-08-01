@@ -34,17 +34,7 @@ void Parser::process() {
             std::cout << "Lost packets: " << totalPacketLost << "\n\n";
             std::cout << "Ring drops: " << ringBuffer.getDrops() << "\n";
 
-            std::cout << "\nLatency Histogram\n";
-            std::cout << "<1us: " << latencyBuckets[0] << "\n";
-            std::cout << "1-5us: " << latencyBuckets[1] << "\n";
-            std::cout << "5-10us: " << latencyBuckets[2] << "\n";
-            std::cout << "10-50us: " << latencyBuckets[3] << "\n";
-            std::cout << "50-100us: " << latencyBuckets[4] << "\n";
-            std::cout << "100-500us: " << latencyBuckets[5] << "\n";
-            std::cout << "500us-1ms: " << latencyBuckets[6] << "\n";
-            std::cout << "1-5ms: " << latencyBuckets[7] << "\n";
-            std::cout << "5-10ms: " << latencyBuckets[8] << "\n";
-            std::cout << ">10ms: " << latencyBuckets[9] << "\n";
+            printHistogram();
 
             std::cout << "p50: " << getPercentile(0.50) << " ns\n";
             std::cout << "p99: " << getPercentile(0.99) << " ns\n";
@@ -88,6 +78,7 @@ void Parser::processPacket(MarketPacket* packet){
 
     pool.release(packet);
 }
+
 /*
     Latency Buckets Ref
     bucket 0: <1us
@@ -101,43 +92,50 @@ void Parser::processPacket(MarketPacket* packet){
     bucket 8: 5-10ms
     bucket 9: >10ms
 */
+// Track latency in log(2^n) buckets
 void Parser::recordLatency(uint64_t latency){
+    // convert ns -> us
     uint64_t us = latency / 1000;
 
-    if(us < 1) latencyBuckets[0]++;
-    else if(us < 5) latencyBuckets[1]++;
-    else if(us < 10) latencyBuckets[2]++; 
-    else if(us < 50) latencyBuckets[3]++;
-    else if(us < 100) latencyBuckets[4]++;
-    else if(us < 500) latencyBuckets[5]++;
-    else if(us < 1000) latencyBuckets[6]++;
-    else if(us < 5000) latencyBuckets[7]++;
-    else if(us < 10000) latencyBuckets[8]++;
-    else latencyBuckets[9]++;
+    int bucket = 0;
+    uint64_t value = 1;
+    while (value < us && bucket < HISTOGRAM_SIZE - 1){
+        value *= 2;
+        bucket++;
+    }
+
+    latencyBuckets[bucket]++;
 }
 
+// Function to get percentile, algorithm below
 uint64_t Parser::getPercentile(double percentile){
     uint64_t target = static_cast<uint64_t>(packetCount * percentile);
-    uint64_t cumulative = 0;
-    uint64_t bucketUpperBounds[10] = {
-        1000,        // <1us
-        5000,        // <5us
-        10000,       // <10us
-        50000,       // <50us
-        100000,      // <100us
-        500000,      // <500us
-        1000000,     // <1ms
-        5000000,     // <5ms
-        10000000,    // <10ms
-        UINT64_MAX
-    };
 
-    for (int i = 0; i < 10; i++){
+    uint64_t cumulative = 0;
+    uint64_t upper = 1;
+
+    for (int i = 0; i < HISTOGRAM_SIZE; i++){
         cumulative += latencyBuckets[i];
-        if(cumulative >= target)
-        {
-            return bucketUpperBounds[i];
+
+        if (cumulative >= target){
+            return upper * 1000; // convert us -> ns
         }
+
+        upper *= 2;
     }
-    return UINT64_MAX;
+
+    return upper * 1000;
+}
+
+void Parser::printHistogram(){
+    std::cout << "\nLatency Histogram\n";
+
+    uint64_t lower = 0;
+    uint64_t upper = 1;
+    for (int i = 0; i < HISTOGRAM_SIZE; i++){
+        std::cout << lower << "-" << upper << "us: " << latencyBuckets[i] << "\n";
+
+        lower = upper;
+        upper *= 2;
+    }
 }

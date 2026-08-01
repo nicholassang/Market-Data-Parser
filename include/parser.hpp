@@ -22,11 +22,13 @@ class Parser {
         PacketPool<1024>& pool;
         Decoder& decoder;
 
-        std::array<uint64_t, 10> latencyBuckets{};
+        static constexpr int HISTOGRAM_SIZE = 20;
+        std::array<uint64_t, HISTOGRAM_SIZE> latencyBuckets{};
 
         void recordLatency(uint64_t latency);
         void processPacket(MarketPacket* packet);
         uint64_t getPercentile(double percentile);
+        void printHistogram();
 
         uint64_t expectedSequence = 1;
         uint64_t totalPacketLost = 0;
