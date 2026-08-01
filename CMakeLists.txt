@@ -30,3 +30,25 @@ add_executable(sender
 )
 
 target_link_libraries(zero_copy_parser pthread)
+
+enable_testing()
+
+add_executable(unit_tests
+    tests/test_main.cpp
+    tests/test_ring_buffer.cpp
+    tests/test_packet_pool.cpp
+    tests/test_order_book.cpp
+
+    src/order_book.cpp
+    src/decoder.cpp
+    src/market_handler.cpp
+)
+
+target_include_directories(unit_tests PRIVATE
+    include
+    tests
+)
+
+target_link_libraries(unit_tests pthread)
+
+add_test(NAME UnitTests COMMAND unit_tests)
