@@ -10,17 +10,22 @@
 
 int main() {
     // Ring Buffer
-    RingBuffer<MarketPacket*, 1024> ringBuffer;
+    RingBuffer<MarketPacket*, 65536> ringBuffer;
     // Packet Pool
-    PacketPool<1024> pool;
+        /*
+            MarketPacket size ~1KB
+            65536 * 1KB ≈64MB
+        */
+    auto pool = std::make_unique<PacketPool<65536>>();
+
     // Handler for logging etc.
     MarketHandler handler;
     // Decoder for datatype handling
     Decoder decoder;
     // Receiver
-    UDPReceiver receiver(9000, ringBuffer, pool);
+    UDPReceiver receiver(9000, ringBuffer, *pool);
     // Parser
-    Parser parser(ringBuffer, handler, pool, decoder);
+    Parser parser(ringBuffer, handler, *pool, decoder);
 
     // 2 threads to share the same resource ringBuffer
     std::thread receiverThread([&]() {receiver.receive();});

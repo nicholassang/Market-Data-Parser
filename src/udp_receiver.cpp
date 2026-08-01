@@ -10,7 +10,7 @@
 #include <unistd.h>
 
 
-UDPReceiver::UDPReceiver(int port, RingBuffer<MarketPacket*, 1024>& rb, PacketPool<1024>& p) : ringBuffer(rb), pool(p) {
+UDPReceiver::UDPReceiver(int port, RingBuffer<MarketPacket*, 65536>& rb, PacketPool<65536>& p) : ringBuffer(rb), pool(p) {
     std::cout << "UDP Reciver created" << "\n";
     // AF_INET uses Ipv4, SOCK_DGRAM specifics UDP
     sockfd = socket(AF_INET, SOCK_DGRAM, 0);

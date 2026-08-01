@@ -12,14 +12,14 @@
 
 class Parser {
     public:
-        Parser(RingBuffer<MarketPacket*, 1024>& rb, MarketHandler& h, PacketPool<1024>& p, Decoder& d);
+        Parser(RingBuffer<MarketPacket*, 65536>& rb, MarketHandler& h, PacketPool<65536>& p, Decoder& d);
 
         void process();
     
     private:
-        RingBuffer<MarketPacket*, 1024>& ringBuffer;
+        RingBuffer<MarketPacket*, 65536>& ringBuffer;
         MarketHandler& handler;
-        PacketPool<1024>& pool;
+        PacketPool<65536>& pool;
         Decoder& decoder;
 
         static constexpr int HISTOGRAM_SIZE = 20;

@@ -9,7 +9,7 @@
 #include <iostream>
 #include <chrono>
 
-Parser::Parser(RingBuffer<MarketPacket*,1024>& rb, MarketHandler& h, PacketPool<1024>& p, Decoder& d): ringBuffer(rb), handler(h), pool(p), decoder(d){
+Parser::Parser(RingBuffer<MarketPacket*,65536>& rb, MarketHandler& h, PacketPool<65536>& p, Decoder& d): ringBuffer(rb), handler(h), pool(p), decoder(d){
     std::cout << "Parser created" << "\n";
 }
 

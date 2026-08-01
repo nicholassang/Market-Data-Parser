@@ -6,12 +6,12 @@
 
 class UDPReceiver {
     public: 
-        UDPReceiver(int port, RingBuffer<MarketPacket*, 1024>& rb, PacketPool<1024>& p);
+        UDPReceiver(int port, RingBuffer<MarketPacket*, 65536>& rb, PacketPool<65536>& p);
         ~UDPReceiver();
 
         void receive();
     private:
         int sockfd;
-        RingBuffer<MarketPacket*, 1024>& ringBuffer;
-        PacketPool<1024>& pool;
+        RingBuffer<MarketPacket*, 65536>& ringBuffer;
+        PacketPool<65536>& pool;
 };
