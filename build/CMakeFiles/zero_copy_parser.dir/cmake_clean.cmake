@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/zero_copy_parser.dir/src/main.cpp.o.d"
   "CMakeFiles/zero_copy_parser.dir/src/market_handler.cpp.o"
   "CMakeFiles/zero_copy_parser.dir/src/market_handler.cpp.o.d"
+  "CMakeFiles/zero_copy_parser.dir/src/order_book.cpp.o"
+  "CMakeFiles/zero_copy_parser.dir/src/order_book.cpp.o.d"
   "CMakeFiles/zero_copy_parser.dir/src/parser.cpp.o"
   "CMakeFiles/zero_copy_parser.dir/src/parser.cpp.o.d"
   "CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o"

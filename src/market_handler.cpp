@@ -4,7 +4,7 @@
 
 MarketHandler::MarketHandler(OrderBook& book): orderBook(book){}
 
-void MarketHandler::onTrade(const TradeMessage& trade){
+void MarketHandler::onTrade(const TradeMessage& trade) {
     orderBook.addTrade(trade.price, trade.quantity);
 }
 

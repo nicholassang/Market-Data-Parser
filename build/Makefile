@@ -214,6 +214,30 @@ src/market_handler.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/market_handler.cpp.s
 .PHONY : src/market_handler.cpp.s
 
+src/order_book.o: src/order_book.cpp.o
+.PHONY : src/order_book.o
+
+# target to build an object file
+src/order_book.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/order_book.cpp.o
+.PHONY : src/order_book.cpp.o
+
+src/order_book.i: src/order_book.cpp.i
+.PHONY : src/order_book.i
+
+# target to preprocess a source file
+src/order_book.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/order_book.cpp.i
+.PHONY : src/order_book.cpp.i
+
+src/order_book.s: src/order_book.cpp.s
+.PHONY : src/order_book.s
+
+# target to generate assembly for a file
+src/order_book.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zero_copy_parser.dir/build.make CMakeFiles/zero_copy_parser.dir/src/order_book.cpp.s
+.PHONY : src/order_book.cpp.s
+
 src/parser.o: src/parser.cpp.o
 .PHONY : src/parser.o
 
@@ -305,6 +329,9 @@ help:
 	@echo "... src/market_handler.o"
 	@echo "... src/market_handler.i"
 	@echo "... src/market_handler.s"
+	@echo "... src/order_book.o"
+	@echo "... src/order_book.i"
+	@echo "... src/order_book.s"
 	@echo "... src/parser.o"
 	@echo "... src/parser.i"
 	@echo "... src/parser.s"

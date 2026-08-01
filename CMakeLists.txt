@@ -22,6 +22,7 @@ add_executable(zero_copy_parser
     src/parser.cpp
     src/market_handler.cpp
     src/decoder.cpp
+    src/order_book.cpp
 )
 
 add_executable(sender
