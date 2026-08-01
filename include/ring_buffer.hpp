@@ -3,6 +3,8 @@
 #include <atomic>
 #include <cstddef>
 
+#include "cache_aligned_atomic.hpp"
+
 template<typename T, size_t N>
 class RingBuffer {
     public:
@@ -39,9 +41,7 @@ class RingBuffer {
 
     private:
         T buffer[N];
-        alignas(64)
-        std::atomic<size_t> head{0};
-        alignas(64)
-        std::atomic<size_t> tail{0};
+        CacheAlignedAtomic head{0};
+        CacheAlignedAtomic tail{0};
         std::atomic<size_t> drops{0};
 };

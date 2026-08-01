@@ -205,6 +205,7 @@ CMakeFiles/zero_copy_parser.dir/src/main.cpp.o: \
  /home/nicholas/Desktop/Market-Data-Parser/include/parser.hpp \
  /usr/include/c++/13/array \
  /home/nicholas/Desktop/Market-Data-Parser/include/ring_buffer.hpp \
+ /home/nicholas/Desktop/Market-Data-Parser/include/cache_aligned_atomic.hpp \
  /home/nicholas/Desktop/Market-Data-Parser/include/market_packet.hpp \
  /home/nicholas/Desktop/Market-Data-Parser/include/market_handler.hpp \
  /home/nicholas/Desktop/Market-Data-Parser/include/packet_pool.hpp \

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "market_packet.hpp"
+#include "cache_aligned_atomic.hpp"
 #include <atomic>
 
 template<size_t N>
@@ -32,8 +33,8 @@ class FreeRing {
 
     private:
         size_t buffer[N];
-        std::atomic<size_t> head{0};
-        std::atomic<size_t> tail{0};
+        CacheAlignedAtomic head;
+        CacheAlignedAtomic tail;
 };
 
 template<size_t N>
