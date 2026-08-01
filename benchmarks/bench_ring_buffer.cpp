@@ -7,18 +7,20 @@ static void BM_RingBufferPushPop(benchmark::State& state)
 {
     RingBuffer<int,65536> rb;
 
-    int value;
+    int value = 0;   // initialize
 
     for(auto _ : state)
     {
-        benchmark::DoNotOptimize(rb.push(123));
+        bool pushed = rb.push(123);
 
-        benchmark::DoNotOptimize(
-            rb.pop(value)
-        );
+        benchmark::DoNotOptimize(pushed);
+
+        bool popped = rb.pop(value);
+
+        benchmark::DoNotOptimize(popped);
+        benchmark::DoNotOptimize(value);
     }
 }
 
-BENCHMARK(BM_RingBufferPushPop);
 
-BENCHMARK_MAIN();
+BENCHMARK(BM_RingBufferPushPop);

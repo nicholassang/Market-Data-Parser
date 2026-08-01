@@ -1,5 +1,4 @@
 #include <benchmark/benchmark.h>
-
 #include "ring_buffer.hpp"
 
 #include <thread>
@@ -11,14 +10,19 @@ static void BM_SPSCThroughput(
 {
     RingBuffer<int,65536> rb;
 
-    std::atomic<bool> running=true;
+    std::atomic<bool> running{true};
+    std::atomic<uint64_t> produced{0};
+    std::atomic<uint64_t> consumed{0};
 
 
     std::thread producer([&](){
 
         while(running)
         {
-            rb.push(1);
+            if(rb.push(1))
+            {
+                produced++;
+            }
         }
 
     });
@@ -30,7 +34,10 @@ static void BM_SPSCThroughput(
 
         while(running)
         {
-            rb.pop(x);
+            if(rb.pop(x))
+            {
+                consumed++;
+            }
         }
 
     });
@@ -46,14 +53,23 @@ static void BM_SPSCThroughput(
 
     running=false;
 
-    state.counters["Throughput"] =
-    benchmark::Counter(
-        state.iterations(),
-        benchmark::Counter::kIsRate
-    );
 
     producer.join();
     consumer.join();
+
+
+    state.counters["Produced"] =
+        benchmark::Counter(
+            produced.load(),
+            benchmark::Counter::kIsRate
+        );
+
+
+    state.counters["Consumed"] =
+        benchmark::Counter(
+            consumed.load(),
+            benchmark::Counter::kIsRate
+        );
 }
 
 

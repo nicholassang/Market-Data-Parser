@@ -56,6 +56,7 @@ add_test(NAME UnitTests COMMAND unit_tests)
 
 # Benchmarks (Google Benchmark)
 add_executable(benchmarks
+    benchmarks/bench_main.cpp
     benchmarks/bench_ring_buffer.cpp
     benchmarks/bench_packet_pool.cpp
     benchmarks/bench_order_book.cpp
