@@ -4,6 +4,11 @@
 
 #pragma pack(push, 1)
 
+enum MessageType{
+    TRADE = 1,
+    QUOTE = 2,
+};
+
 struct alignas(64) MarketPacket {
     char data[1024];
     size_t length;
