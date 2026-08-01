@@ -788,6 +788,7 @@ CMakeFiles/zero_copy_parser.dir/src/parser.cpp.o: /home/nicholas/Desktop/Market-
   /usr/include/x86_64-linux-gnu/sys/syscall.h \
   /usr/include/x86_64-linux-gnu/sys/types.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/adxintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/13/include/ammintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/amxbf16intrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/amxcomplexintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/amxfp16intrin.h \
@@ -838,6 +839,7 @@ CMakeFiles/zero_copy_parser.dir/src/parser.cpp.o: /home/nicholas/Desktop/Market-
   /usr/lib/gcc/x86_64-linux-gnu/13/include/emmintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/enqcmdintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/f16cintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/13/include/fma4intrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/fmaintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/fxsrintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/gfniintrin.h \
@@ -848,6 +850,7 @@ CMakeFiles/zero_copy_parser.dir/src/parser.cpp.o: /home/nicholas/Desktop/Market-
   /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/lwpintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/lzcntintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/13/include/mm3dnow.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/mm_malloc.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/mmintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/movdirintrin.h \
@@ -880,7 +883,9 @@ CMakeFiles/zero_copy_parser.dir/src/parser.cpp.o: /home/nicholas/Desktop/Market-
   /usr/lib/gcc/x86_64-linux-gnu/13/include/wbnoinvdintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/wmmintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/x86gprintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/13/include/x86intrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/xmmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/13/include/xopintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/xsavecintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/xsaveintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/xsaveoptintrin.h \
@@ -1194,6 +1199,8 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/xsavecintrin.h:
 
+/usr/lib/gcc/x86_64-linux-gnu/13/include/xopintrin.h:
+
 /usr/include/x86_64-linux-gnu/bits/socket2.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/vaesintrin.h:
@@ -1223,6 +1230,8 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 /usr/lib/gcc/x86_64-linux-gnu/13/include/mmintrin.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/mm_malloc.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/mm3dnow.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/lzcntintrin.h:
 
@@ -1291,6 +1300,8 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 /usr/lib/gcc/x86_64-linux-gnu/13/include/amxcomplexintrin.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/amxbf16intrin.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/ammintrin.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/adxintrin.h:
 
@@ -1676,6 +1687,8 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 
 /home/nicholas/Desktop/Market-Data-Parser/include/packet_pool.hpp:
 
+/usr/lib/gcc/x86_64-linux-gnu/13/include/x86intrin.h:
+
 /usr/include/c++/13/clocale:
 
 /usr/include/x86_64-linux-gnu/sys/syscall.h:
@@ -1711,6 +1724,8 @@ CMakeFiles/zero_copy_parser.dir/src/udp_receiver.cpp.o: /home/nicholas/Desktop/M
 /usr/include/x86_64-linux-gnu/bits/wchar2-decl.h:
 
 /usr/include/c++/13/bits/allocator.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/fma4intrin.h:
 
 /usr/include/c++/13/ext/alloc_traits.h:
 

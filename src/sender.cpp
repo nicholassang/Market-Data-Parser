@@ -6,6 +6,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <x86intrin.h>
 
 #include "market_packet.hpp"
 
@@ -28,8 +29,8 @@ int main() {
         header.length = sizeof(PacketHeader) + sizeof(TradeMessage); // Testing a trade UDP call
         header.messageType = 1;
         header.sequence = sequence++;
-        auto now = std::chrono::steady_clock::now();
-        header.timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch()).count();
+        unsigned int aux;
+        header.timestamp = __rdtscp(&aux);
     
         memcpy(trade.symbol, "ABCD", 4);
         trade.price = 18500;
@@ -55,8 +56,8 @@ int main() {
         header.length = sizeof(PacketHeader) + sizeof(QuoteMessage); // Testing a Quote UDP call
         header.messageType = 2;
         header.sequence = sequence++;
-        auto now = std::chrono::steady_clock::now();
-        header.timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch()).count();
+        unsigned int aux;
+        header.timestamp = __rdtscp(&aux);
     
         memcpy(quote.symbol, "ABCD", 4);
         quote.bidPrice = 10000;

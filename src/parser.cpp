@@ -4,6 +4,7 @@
 #include "market_handler.hpp"
 #include "decoder.hpp"
 #include <immintrin.h>
+#include <x86intrin.h>
 
 #include <iostream>
 #include <chrono>
@@ -58,13 +59,19 @@ void Parser::processPacket(MarketPacket* packet){
     auto* header = reinterpret_cast<PacketHeader*>(packet->data);
 
     // Log latency
-    auto now = std::chrono::steady_clock::now();
-    auto nowNs = std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch()).count();
-    auto latency = nowNs - header->timestamp;
+    // We use __rdtscp which calculates internal clock speed
+    unsigned int aux;
+    uint64_t now = __rdtscp(&aux);
+    uint64_t latencyCycles = now - header->timestamp;
+
+    double cyclesPerNanosecond = 3.8; // Assume CPU is 3.8Ghtz
+    uint64_t latencyNs = latencyCycles / cyclesPerNanosecond; // cycle / freq = seconds (latency) 
+
     packetCount++;
-    totalLatency += latency;
-    maxLatency = std::max(maxLatency, latency);
-    recordLatency(latency);
+    totalLatency += latencyNs;
+    maxLatency = std::max(maxLatency, latencyNs);
+
+    recordLatency(latencyNs);
 
     // Log lost packets
     if (header->sequence != expectedSequence){
@@ -74,7 +81,7 @@ void Parser::processPacket(MarketPacket* packet){
     expectedSequence = header->sequence + 1;
 
     // Commented out for now to test latency, cout is computationally expensive for 1000000~ UDP packets
-    //decoder.decode(packet, handler);
+    // decoder.decode(packet, handler);
 
     pool.release(packet);
 }

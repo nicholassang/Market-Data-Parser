@@ -226,6 +226,11 @@ CMakeFiles/zero_copy_parser.dir/src/parser.cpp.o: \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/prfchwintrin.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/keylockerintrin.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/amxfp16intrin.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/x86intrin.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/mm3dnow.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/fma4intrin.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/ammintrin.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/xopintrin.h \
  /usr/include/c++/13/iostream /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/c++/13/ostream /usr/include/c++/13/ios \
  /usr/include/c++/13/iosfwd /usr/include/c++/13/bits/stringfwd.h \
