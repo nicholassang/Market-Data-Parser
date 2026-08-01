@@ -232,12 +232,6 @@ CMakeFiles/zero_copy_parser.dir/src/main.cpp.o: \
  /home/nicholas/Desktop/Market-Data-Parser/include/market_packet.hpp \
  /home/nicholas/Desktop/Market-Data-Parser/include/market_handler.hpp \
  /home/nicholas/Desktop/Market-Data-Parser/include/order_book.hpp \
- /usr/include/c++/13/map /usr/include/c++/13/bits/stl_tree.h \
- /usr/include/c++/13/ext/aligned_buffer.h \
- /usr/include/c++/13/bits/node_handle.h \
- /usr/include/c++/13/bits/stl_map.h \
- /usr/include/c++/13/bits/stl_multimap.h \
- /usr/include/c++/13/bits/erase_if.h \
  /home/nicholas/Desktop/Market-Data-Parser/include/packet_pool.hpp \
  /home/nicholas/Desktop/Market-Data-Parser/include/decoder.hpp \
  /home/nicholas/Desktop/Market-Data-Parser/include/udp_receiver.hpp \
