@@ -3,6 +3,7 @@
 
 #include <thread>
 #include <atomic>
+#include <chrono>
 
 
 static void BM_SPSCThroughput(
@@ -21,7 +22,7 @@ static void BM_SPSCThroughput(
         {
             if(rb.push(1))
             {
-                produced++;
+                produced.fetch_add(1, std::memory_order_relaxed);
             }
         }
 
@@ -36,7 +37,7 @@ static void BM_SPSCThroughput(
         {
             if(rb.pop(x))
             {
-                consumed++;
+                consumed.fetch_add(1, std::memory_order_relaxed);
             }
         }
 
@@ -58,18 +59,14 @@ static void BM_SPSCThroughput(
     consumer.join();
 
 
-    state.counters["Produced"] =
-        benchmark::Counter(
-            produced.load(),
-            benchmark::Counter::kIsRate
-        );
+    state.counters["Throughput"] =
+    static_cast<double>(consumed.load());
 
+    state.counters["Produced"] =
+        static_cast<double>(produced.load());
 
     state.counters["Consumed"] =
-        benchmark::Counter(
-            consumed.load(),
-            benchmark::Counter::kIsRate
-        );
+        static_cast<double>(consumed.load());
 }
 
 
