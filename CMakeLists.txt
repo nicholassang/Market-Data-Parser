@@ -31,6 +31,7 @@ add_executable(sender
 
 target_link_libraries(zero_copy_parser pthread)
 
+# Unit Tests (catch)
 enable_testing()
 
 add_executable(unit_tests
@@ -52,3 +53,23 @@ target_include_directories(unit_tests PRIVATE
 target_link_libraries(unit_tests pthread)
 
 add_test(NAME UnitTests COMMAND unit_tests)
+
+# Benchmarks (Google Benchmark)
+add_executable(benchmarks
+    benchmarks/bench_ring_buffer.cpp
+    benchmarks/bench_packet_pool.cpp
+    benchmarks/bench_order_book.cpp
+    benchmarks/bench_pipeline.cpp
+
+    src/order_book.cpp
+)
+
+target_include_directories(benchmarks PRIVATE
+    include
+    /usr/include
+)
+
+target_link_libraries(benchmarks
+    benchmark
+    pthread
+)
