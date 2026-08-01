@@ -1,113 +1,158 @@
 #include "order_book.hpp"
 
-void OrderBook::addTrade(uint64_t price, uint32_t quantity) {
+void OrderBook::addTrade(uint64_t price, uint32_t quantity){
     lastTradePrice = price;
     totalVolume += quantity;
 }
 
-void OrderBook::addBid(uint64_t price, uint32_t qty)
-{
-    // update existing level
-    for(size_t i=0;i<bidCount;i++)
-    {
-        if(bids[i].price == price)
+
+void OrderBook::addBid(uint64_t price, uint32_t qty){
+    auto it = std::lower_bound(bids.begin(), bids.begin() + bidCount,
+        price,
+        [](const PriceLevel& level, uint64_t p)
         {
-            bids[i].quantity = qty;
-
-            if(qty == 0)
-                removeBid(price);
-
-            return;
+            return level.price > p; // descending
         }
+    );
+
+    size_t pos = it - bids.begin();
+
+
+    // existing level
+    if(pos < bidCount && bids[pos].price == price)
+    {
+        bids[pos].quantity = qty;
+
+        if(qty == 0)
+            removeBid(price);
+
+        return;
     }
+
 
     if(qty == 0 || bidCount == MAX_LEVELS)
         return;
 
-    size_t pos = bidCount;
 
-    while(pos > 0 && bids[pos-1].price < price)
-    {
-        bids[pos] = bids[pos-1];
-        pos--;
-    }
+    // shift right
+    for(size_t i = bidCount; i > pos; i--)
+        bids[i] = bids[i-1];
+
 
     bids[pos] = {price, qty};
     bidCount++;
+
+
+    if(price > bestBidPrice)
+        bestBidPrice = price;
 }
 
-void OrderBook::addAsk(uint64_t price, uint32_t qty)
-{
-    for(size_t i=0;i<askCount;i++)
-    {
-        if(asks[i].price == price)
+void OrderBook::addAsk(uint64_t price, uint32_t qty){
+    auto it = std::lower_bound(
+        asks.begin(),
+        asks.begin() + askCount,
+        price,
+        [](const PriceLevel& level, uint64_t p)
         {
-            asks[i].quantity = qty;
-
-            if(qty == 0)
-                removeAsk(price);
-
-            return;
+            return level.price < p; // ascending
         }
+    );
+
+    size_t pos = it - asks.begin();
+
+
+    // existing level
+    if(pos < askCount && asks[pos].price == price)
+    {
+        asks[pos].quantity = qty;
+
+        if(qty == 0)
+            removeAsk(price);
+
+        return;
     }
+
 
     if(qty == 0 || askCount == MAX_LEVELS)
         return;
 
-    size_t pos = askCount;
 
-    while(pos > 0 && asks[pos-1].price > price)
-    {
-        asks[pos] = asks[pos-1];
-        pos--;
-    }
+    // shift right
+    for(size_t i = askCount; i > pos; i--)
+        asks[i] = asks[i-1];
+
 
     asks[pos] = {price, qty};
     askCount++;
+
+
+    if(bestAskPrice == 0 || price < bestAskPrice)
+        bestAskPrice = price;
 }
 
-void OrderBook::removeBid(uint64_t price)
-{
-    for(size_t i=0;i<bidCount;i++)
-    {
-        if(bids[i].price == price)
+void OrderBook::removeBid(uint64_t price){
+    auto it = std::lower_bound(
+        bids.begin(),
+        bids.begin() + bidCount,
+        price,
+        [](const PriceLevel& level, uint64_t p)
         {
-            for(size_t j=i+1;j<bidCount;j++)
-                bids[j-1] = bids[j];
-
-            bidCount--;
-            return;
+            return level.price > p;
         }
-    }
+    );
+
+    size_t pos = it - bids.begin();
+
+
+    if(pos >= bidCount || bids[pos].price != price)
+        return;
+
+
+    for(size_t i = pos + 1; i < bidCount; i++)
+        bids[i-1] = bids[i];
+
+
+    bidCount--;
+
+
+    if(bidCount > 0)
+        bestBidPrice = bids[0].price;
+    else
+        bestBidPrice = 0;
 }
 
-void OrderBook::removeAsk(uint64_t price)
-{
-    for(size_t i=0;i<askCount;i++)
-    {
-        if(asks[i].price == price)
+void OrderBook::removeAsk(uint64_t price){
+    auto it = std::lower_bound(
+        asks.begin(),
+        asks.begin() + askCount,
+        price,
+        [](const PriceLevel& level, uint64_t p)
         {
-            for(size_t j=i+1;j<askCount;j++)
-                asks[j-1] = asks[j];
-
-            askCount--;
-            return;
+            return level.price < p;
         }
-    }
+    );
+
+    size_t pos = it - asks.begin();
+
+    if(pos >= askCount || asks[pos].price != price)
+        return;
+
+    for(size_t i = pos + 1; i < askCount; i++)
+        asks[i-1] = asks[i];
+
+    askCount--;
+
+    if(askCount > 0)
+        bestAskPrice = asks[0].price;
+    else
+        bestAskPrice = 0;
 }
 
-uint64_t OrderBook::bestBid() const
-{
-    if(bidCount == 0)
-        return 0;
-
-    return bids[0].price;
+uint64_t OrderBook::bestBid() const{
+    return bestBidPrice;
 }
 
-uint64_t OrderBook::bestAsk() const
-{
-    if(askCount == 0)
-        return 0;
 
-    return asks[0].price;
+uint64_t OrderBook::bestAsk() const{
+    return bestAskPrice;
 }

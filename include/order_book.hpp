@@ -37,7 +37,9 @@ private:
     size_t bidCount = 0;
     size_t askCount = 0;
 
+    uint64_t bestBidPrice = 0;
+    uint64_t bestAskPrice = 0;
+
     uint64_t lastTradePrice = 0;
     uint64_t totalVolume = 0;
-
 };
