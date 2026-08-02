@@ -6,60 +6,50 @@
 
 template<size_t N>
 class FreeRing {
-public:
+    public:
+        FreeRing(): head(0), tail(0) {}
 
-    FreeRing()
-        : head(0),
-          tail(0)
-    {}
+        bool push(size_t index){
+            size_t currentTail = tail.load(std::memory_order_relaxed);
+            size_t nextTail = (currentTail + 1) % N;
 
-    bool push(size_t index)
-    {
-        size_t currentTail = tail.load(std::memory_order_relaxed);
+            if(nextTail == head.load(std::memory_order_acquire)){
+                return false;
+            }
 
-        size_t nextTail = (currentTail + 1) % N;
+            buffer[currentTail] = index;
 
-        if(nextTail == head.load(std::memory_order_acquire))
-            return false;
+            tail.store(
+                nextTail,
+                std::memory_order_release
+            );
 
-        buffer[currentTail] = index;
-
-        tail.store(
-            nextTail,
-            std::memory_order_release
-        );
-
-        return true;
-    }
+            return true;
+        }
 
 
-    bool pop(size_t& index)
-    {
-        size_t currentHead = head.load(std::memory_order_relaxed);
+        bool pop(size_t& index){
+            size_t currentHead = head.load(std::memory_order_relaxed);
 
-        if(currentHead == tail.load(std::memory_order_acquire))
-            return false;
+            if (currentHead == tail.load(std::memory_order_acquire)){
+                return false;
+            }
+            index = buffer[currentHead];
 
-        index = buffer[currentHead];
+            head.store((currentHead + 1) % N, std::memory_order_release);
 
-        head.store(
-            (currentHead + 1) % N,
-            std::memory_order_release
-        );
-
-        return true;
-    }
+            return true;
+        }
 
 
-private:
+    private:
+        size_t buffer[N];
 
-    size_t buffer[N];
+        alignas(64)
+        std::atomic<size_t> head;
 
-    alignas(64)
-    std::atomic<size_t> head;
-
-    alignas(64)
-    std::atomic<size_t> tail;
+        alignas(64)
+        std::atomic<size_t> tail;
 };
 
 
