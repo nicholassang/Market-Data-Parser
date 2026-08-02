@@ -1,68 +1,24 @@
 # Hybrid FPGA + C++ Low-Latency Market Data Parser
 
-A high-performance market data ingestion engine built with modern C++20 and FPGA acceleration.
+This project consists of two complementary components:
 
-This project simulates a hybrid low-latency trading infrastructure pipeline:
+1. **C++20 Zero-Copy Market Data Processing Engine**: A production-style software pipeline for low-latency market data processing.
+2. **SystemVerilog FPGA Simulation Prototype**: A hardware exploration of market data processing concepts using Verilator.
 
-```
-   UDP Market Data Feed
-          |
-          v
-   DPDK Kernel-Bypass Networking
-          |
-          v
-   FPGA Packet Parser + Order Book
-          |
-          v
-   Lock-Free SPSC Queue
-          |
-          v
-   CPU Trading Logic
-```
-
-The goal is to explore performance-critical C++ and FPGA concepts used in financial systems:
-
-- zero-copy memory processing
-- cache-friendly data structures
-- lock-free communication
-- memory pooling
-- deterministic hardware acceleration
-- low-latency benchmarking
+The goal is to demonstrate low-latency software engineering concepts in C++ and explore how FPGA hardware acceleration could complement future high-frequency trading infrastructure.
 
 ---
 
 # Features
 
-## Hybrid Architecture
+## C++20 Market Data Processing Engine
 
-The system combines FPGA acceleration with C++ software to achieve ultra-low latency:
+The C++ implementation is a high-performance, production-style pipeline designed for low-latency market data processing. It includes:
 
-- **FPGA**: Deterministic packet parsing and order book acceleration.
-- **DPDK**: High-throughput kernel-bypass networking and NIC data movement.
-- **CPU**: Trading strategies and higher-level application logic.
-
----
-
-## FPGA Implementation
-
-The FPGA implementation accelerates packet parsing and order book operations:
-
-- **Packet Parsing**: Deterministic decoding of market data packets.
-- **Order Book**: Hardware-accelerated price-level aggregation and updates.
-
-### Verilator Benchmark Results
-
-- **Packets Processed**: 1002
-- **Cycles**: 1012
-- **Packets/Cycle**: 0.990119
-- **Throughput**: 247.5 million packets/sec @ 250MHz
-- **Processing Latency**: 1 cycle (4 ns)
-
----
-
-## C++ Implementation
-
-The C++ pipeline handles trading logic and integrates with the FPGA for hardware acceleration.
+- **Zero-Copy Architecture**: Efficient memory handling for high-throughput processing.
+- **Lock-Free Communication**: SPSC ring buffer for inter-thread communication.
+- **Order Book Reconstruction**: Level 2 order book with price-level aggregation.
+- **Latency Measurement**: Tools for analyzing p50/p99/p99.9 latencies.
 
 ### Benchmarks (Software)
 
@@ -121,6 +77,32 @@ Consumed:
 
 ---
 
+## FPGA Simulation Prototype
+
+The FPGA simulation is a hardware exploration of market data processing concepts. It is implemented in SystemVerilog and simulated using Verilator. The FPGA prototype is **not integrated** into the C++ pipeline but serves as a proof-of-concept for potential hardware acceleration.
+
+### FPGA Implementation
+
+The FPGA simulation includes:
+
+- **Packet Parsing**: Deterministic decoding of market data packets.
+- **Bid/Ask Tracking**: Hardware-accelerated price-level aggregation.
+- **Best Price Calculation**: Efficient computation of best bid/ask prices.
+
+### Verilator Benchmark Results
+
+- **Packets Processed**: 1002
+- **Cycles**: 1012
+- **Packets/Cycle**: 0.990119
+- **Throughput**: 247.5 million packets/sec @ 250MHz
+- **Processing Latency**: 1 cycle (4 ns)
+
+### Purpose
+
+The FPGA simulation explores how hardware acceleration could complement the software pipeline in future high-frequency trading systems. It demonstrates deterministic latency and high throughput for market data processing.
+
+---
+
 # Hardware/Software Architecture
 
 ### Overview
@@ -132,28 +114,26 @@ Consumed:
    DPDK RX
       |
       v
-   FPGA Parser
-      |
-      v
-   FPGA Order Book
+   C++ Market Data Parser
       |
       v
    CPU Trading Logic
 ```
 
-### FPGA Modules
+### FPGA Simulation Flow
 
-1. **Packet Parser**:
-   - Decodes market data packets.
-   - Outputs structured messages to the order book.
-
-2. **Order Book**:
-   - Hardware-accelerated price-level aggregation.
-   - Deterministic latency for updates and lookups.
-
-3. **Simulation Flow**:
-   - Verilator used for RTL simulation and benchmarking.
-   - Deterministic latency verified with cycle-accurate results.
+```
+   Verilator Simulation
+      |
+      v
+   Packet Parser
+      |
+      v
+   Bid/Ask Tracking
+      |
+      v
+   Best Price Calculation
+```
 
 ---
 
