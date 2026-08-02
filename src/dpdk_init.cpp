@@ -3,8 +3,7 @@
 #include <rte_eal.h>
 #include <stdexcept>
 
-int init_dpdk()
-{
+int init_dpdk(){
     static bool initialized = false;
 
     if (initialized)
