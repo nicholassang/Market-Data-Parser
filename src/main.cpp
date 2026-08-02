@@ -11,6 +11,9 @@
 #include "decoder.hpp"
 #include "cpu_affinity.hpp"
 #include "order_book.hpp"
+#include "dpdk_init.hpp"
+#include "dpdk_receiver.hpp"
+#include "dpdk_port.hpp"
 
 void signalHandler(int){
     Runtime::running = false;
@@ -19,6 +22,17 @@ void signalHandler(int){
 int main() {
     // For graceful shutdown
     signal(SIGINT, signalHandler);
+
+    // Initialize DPDK runtime
+    if(init_dpdk() < 0){
+        return 1;
+    }
+
+    // Initialize NIC
+    DPDKPort port;
+    if(!port.init()){
+        return 1;
+    }
 
     // Ring Buffer
     RingBuffer<MarketPacket*, 65536> ringBuffer;
@@ -34,10 +48,16 @@ int main() {
 
     // Handler for logging etc.
     MarketHandler handler(orderBook);
+
     // Decoder for datatype handling
     Decoder decoder;
-    // Receiver
-    UDPReceiver receiver(9000, ringBuffer, *pool);
+
+    // A: UDP Receiver
+    // UDPReceiver receiver(9000, ringBuffer, *pool);
+
+    // B: DPDK Receiver
+    DPDKReceiver receiver(ringBuffer, *pool, 0); // DPDK port id -> 0
+
     // Parser
     Parser parser(ringBuffer, handler, *pool, decoder);
 

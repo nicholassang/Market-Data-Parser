@@ -26,19 +26,6 @@ UDPReceiver::UDPReceiver(int port, RingBuffer<MarketPacket*, 65536>& rb, PacketP
     int flags = fcntl(sockfd, F_GETFL, 0);
     fcntl(sockfd, F_SETFL, flags | O_NONBLOCK);
 
-    // Set sockfd to timeout after 1s for Ctrl C to work
-    timeval timeout{};
-    timeout.tv_sec = 1;
-    timeout.tv_usec = 0;
-    
-    setsockopt(
-        sockfd,
-        SOL_SOCKET,
-        SO_RCVTIMEO,
-        &timeout,
-        sizeof(timeout)
-    );
-
     sockaddr_in addr{};
 
     addr.sin_family = AF_INET;
@@ -60,7 +47,7 @@ UDPReceiver::UDPReceiver(int port, RingBuffer<MarketPacket*, 65536>& rb, PacketP
     
     
     epoll_event event{};
-    event.events = EPOLLIN;
+    event.events = EPOLLIN | EPOLLET; // Clean up the event flags to use edge-triggered mode
     event.data.fd = sockfd;
     
     
@@ -84,12 +71,12 @@ UDPReceiver::~UDPReceiver(){
 
 
 void UDPReceiver::receive(){
-    epoll_event events[1];
+    epoll_event events[16];
     while(Runtime::running){
         int n = epoll_wait(
             epollFd,
             events,
-            1,
+            16,
             1000
         );
         if(n < 0){

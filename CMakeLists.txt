@@ -16,6 +16,10 @@ add_compile_options(
 
 include_directories(include)
 
+# DPDK
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(DPDK REQUIRED libdpdk)
+
 add_executable(zero_copy_parser
     src/main.cpp
     src/udp_receiver.cpp
@@ -23,13 +27,37 @@ add_executable(zero_copy_parser
     src/market_handler.cpp
     src/decoder.cpp
     src/order_book.cpp
+    ${DPDK_INCLUDE_DIRS}
+    src/dpdk_receiver.cpp
+    src/dpdk_port.cpp
+    src/dpdk_init.cpp
+)
+
+target_compile_options(zero_copy_parser PRIVATE
+    -Wno-pedantic
+)
+
+target_include_directories(
+    zero_copy_parser
+    PRIVATE
+    ${DPDK_INCLUDE_DIRS}
+)
+
+target_link_directories(
+    zero_copy_parser
+    PRIVATE
+    ${DPDK_LIBRARY_DIRS}
+)
+
+target_link_libraries(
+    zero_copy_parser
+    PRIVATE
+    ${DPDK_LIBRARIES}
 )
 
 add_executable(sender
     src/sender.cpp
 )
-
-target_link_libraries(zero_copy_parser pthread)
 
 # Unit Tests (catch)
 enable_testing()
@@ -61,16 +89,26 @@ add_executable(benchmarks
     benchmarks/bench_packet_pool.cpp
     benchmarks/bench_order_book.cpp
     benchmarks/bench_pipeline.cpp
+    benchmarks/bench_dpdk.cpp
 
     src/order_book.cpp
+    src/dpdk_init.cpp
 )
 
 target_include_directories(benchmarks PRIVATE
     include
     /usr/include
+    ${DPDK_INCLUDE_DIRS}
 )
+
+
+target_link_directories(benchmarks PRIVATE
+    ${DPDK_LIBRARY_DIRS}
+)
+
 
 target_link_libraries(benchmarks
     benchmark
     pthread
+    ${DPDK_LIBRARIES}
 )
