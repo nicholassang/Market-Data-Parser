@@ -1,155 +1,70 @@
-# Zero-Copy Market Data Parser
+# Hybrid FPGA + C++ Low-Latency Market Data Parser
 
-A high-performance market data ingestion engine built in modern C++20.
+A high-performance market data ingestion engine built with modern C++20 and FPGA acceleration.
 
-This project simulates a simplified low-latency trading infrastructure pipeline:
+This project simulates a hybrid low-latency trading infrastructure pipeline:
 
 ```
    UDP Market Data Feed
           |
           v
-   Zero-Copy Decoder
+   DPDK Kernel-Bypass Networking
+          |
+          v
+   FPGA Packet Parser + Order Book
           |
           v
    Lock-Free SPSC Queue
           |
           v
-Order Book Engine
+   CPU Trading Logic
 ```
 
-The goal is to explore performance-critical C++ concepts used in financial systems:
+The goal is to explore performance-critical C++ and FPGA concepts used in financial systems:
 
 - zero-copy memory processing
 - cache-friendly data structures
 - lock-free communication
 - memory pooling
+- deterministic hardware acceleration
 - low-latency benchmarking
 
+---
 
 # Features
 
-## Zero-Copy Packet Parser
+## Hybrid Architecture
 
-Market packets are decoded directly from raw memory buffers without unnecessary copying.
+The system combines FPGA acceleration with C++ software to achieve ultra-low latency:
 
-Techniques used:
+- **FPGA**: Deterministic packet parsing and order book acceleration.
+- **DPDK**: High-throughput kernel-bypass networking and NIC data movement.
+- **CPU**: Trading strategies and higher-level application logic.
 
-- packed memory layouts
-- `reinterpret_cast`
-- direct buffer parsing
-- binary message decoding
+---
 
-Pipeline:
+## FPGA Implementation
 
-```
-Raw UDP Buffer
-       |
-       v
- Packet Header
-       |
-       v
- Trade / Quote Message
-```
+The FPGA implementation accelerates packet parsing and order book operations:
 
+- **Packet Parsing**: Deterministic decoding of market data packets.
+- **Order Book**: Hardware-accelerated price-level aggregation and updates.
 
-## Packet Memory Pool
+### Verilator Benchmark Results
 
-Custom packet allocator to avoid repeated heap allocations.
+- **Packets Processed**: 1002
+- **Cycles**: 1012
+- **Packets/Cycle**: 0.990119
+- **Throughput**: 247.5 million packets/sec @ 250MHz
+- **Processing Latency**: 1 cycle (4 ns)
 
-Features:
+---
 
-- preallocated packet storage
-- reusable packet objects
-- free-list ring buffer
-- constant-time acquire/release
+## C++ Implementation
 
-Example:
+The C++ pipeline handles trading logic and integrates with the FPGA for hardware acceleration.
 
-```cpp
-auto* packet = pool.acquire();
-
-process(packet);
-
-pool.release(packet);
-```
-
-Benchmark:
-
-```
-BM_PacketPoolAcquireRelease
-
-~1 ns per operation
-```
-
-
-## Lock-Free SPSC Ring Buffer
-
-Single Producer Single Consumer queue for passing market events between pipeline stages.
-
-Design:
-
-- fixed-size circular buffer
-- atomic synchronization
-- no mutex locking
-- cache-friendly memory layout
-
-Benchmark:
-
-```
-BM_SPSCThroughput
-
-Produced:
-~80 million messages/sec
-
-Consumed:
-~80 million messages/sec
-```
-
-
-## Order Book Engine
-
-Maintains bid and ask price levels.
-
-Supported operations:
-
-```cpp
-addBid(price, quantity)
-addAsk(price, quantity)
-
-removeBid(price)
-removeAsk(price)
-
-bestBid()
-bestAsk()
-```
-
-Implementation:
-
-- contiguous memory using `std::array`
-- sorted price levels
-- binary search lookup using `std::lower_bound`
-- cached best bid/ask prices
-
-
-Example:
-
-```
-Bids
-
-10100 x 50
-10099 x 20
-10098 x 10
-
-
-Asks
-
-10101 x 30
-10102 x 40
-10103 x 60
-```
-
-
-# Performance Benchmarks
+### Benchmarks (Software)
 
 Environment:
 
@@ -171,16 +86,15 @@ Compiler optimizations:
 -march=native
 ```
 
-
-## Microbenchmarks
+#### Microbenchmarks
 
 ```
 Benchmark                         Time
 ------------------------------------------------
 
-RingBufferPushPop                 ~1 ns
-
 PacketPoolAcquireRelease          ~1 ns
+
+RingBufferPushPop                 ~1 ns
 
 OrderBookAsk                      ~1.5 ns
 
@@ -188,13 +102,12 @@ OrderBookRandom                   ~7 ns
 
 OrderBookDepth/10                 ~160 ns
 
-OrderBookDepth/100                ~2.6 us
+OrderBookDepth/100                ~2.6 μs
 
-OrderBookDepth/1000               ~216 us
+OrderBookDepth/1000               ~216 μs
 ```
 
-
-## Pipeline Throughput
+#### Pipeline Throughput
 
 ```
 SPSCThroughput
@@ -206,43 +119,60 @@ Consumed:
 ~80M messages/sec
 ```
 
+---
 
-# Testing
+# Hardware/Software Architecture
 
-Unit tests are implemented using Catch2.
-
-Run:
-
-```bash
-./build/unit_tests
-```
-
-Example output:
+### Overview
 
 ```
-All tests passed
-37 assertions in 8 test cases
+   UDP Feed
+      |
+      v
+   DPDK RX
+      |
+      v
+   FPGA Parser
+      |
+      v
+   FPGA Order Book
+      |
+      v
+   CPU Trading Logic
 ```
 
-Tests cover:
+### FPGA Modules
 
-- packet decoding
-- packet pool allocation
-- ring buffer correctness
-- order book operations
+1. **Packet Parser**:
+   - Decodes market data packets.
+   - Outputs structured messages to the order book.
 
+2. **Order Book**:
+   - Hardware-accelerated price-level aggregation.
+   - Deterministic latency for updates and lookups.
+
+3. **Simulation Flow**:
+   - Verilator used for RTL simulation and benchmarking.
+   - Deterministic latency verified with cycle-accurate results.
+
+---
 
 # Build Instructions
 
-Requirements:
+## Requirements
 
-- C++20 compiler
-- CMake >= 3.20
-- Google Benchmark
-- Catch2
+- **C++20 Compiler**: GCC 13 or Clang 16
+- **CMake**: Version >= 3.20
+- **Google Benchmark**: For performance testing
+- **Catch2**: For unit testing
+- **Verilator**: For FPGA simulation
+- **DPDK**: For kernel-bypass networking
 
+---
 
-Build:
+## Build
+
+### Software
 
 ```bash
 mkdir build
@@ -252,6 +182,15 @@ cmake ..
 cmake --build . -j
 ```
 
+### FPGA Simulation
+
+```bash
+cd fpga
+make verilator
+./simulator
+```
+
+---
 
 # Running
 
@@ -261,13 +200,11 @@ cmake --build . -j
 ./build/zero_copy_parser
 ```
 
-
-## UDP Sender (Same UDP packet data for mainly latency/throughout testing)
+## UDP Sender
 
 ```bash
 ./build/sender
 ```
-
 
 ## Unit Tests
 
@@ -275,65 +212,40 @@ cmake --build . -j
 ./build/unit_tests
 ```
 
-
 ## Benchmarks
 
 ```bash
 ./build/benchmarks
 ```
 
-
-# Project Structure (Main files)
-
-```
-.
-├── include
-│   ├── decoder.hpp
-│   ├── packet_pool.hpp
-│   ├── ring_buffer.hpp
-│   ├── order_book.hpp
-│   └── market_packet.hpp
-│
-├── src
-│   ├── decoder.cpp
-│   ├── parser.cpp
-│   ├── udp_receiver.cpp
-│   ├── order_book.cpp
-│   └── main.cpp
-│
-├── benchmarks
-│   ├── bench_ring_buffer.cpp
-│   ├── bench_packet_pool.cpp
-│   ├── bench_order_book.cpp
-│   └── bench_pipeline.cpp
-│
-└── tests
-    ├── test_decoder.cpp
-    ├── test_packet_pool.cpp
-    ├── test_ring_buffer.cpp
-    └── test_order_book.cpp
-```
-
+---
 
 # Future Improvements
 
-Potential optimizations:
+### Hardware
 
-- price-indexed order book for O(1) lookup
-- cache-line alignment improvements
+- PCIe FPGA deployment
+- DMA streaming for high-throughput data movement
+- FPGA-enabled NICs for direct packet processing
+- Hardware timestamping for precise latency measurement
+- Deeper order book acceleration for multi-level aggregation
+
+### Software
+
+- p50/p99/p99.9 latency analysis
 - NUMA-aware memory allocation
-- epoll-based networking
-- DPDK kernel bypass networking
-- latency percentile measurements (p50/p99/p99.9)
-- hardware timestamping
+- Optimized cache-line alignment
+- Epoll-based networking for improved scalability
 
+---
 
 # Learning Objectives
 
 This project explores concepts used in:
 
-- high-frequency trading systems
-- exchange gateways
-- market data feeds
-- low-latency C++ infrastructure
-- performance-critical applications
+- High-frequency trading systems
+- Exchange gateways
+- Market data feeds
+- Low-latency C++ infrastructure
+- Deterministic FPGA acceleration
+- Performance-critical applications
